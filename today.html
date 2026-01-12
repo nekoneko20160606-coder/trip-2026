@@ -130,13 +130,20 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }   
-/* 写真だけ非表示 */
+/* ===== 今日だけ見る版：不要要素を非表示 ===== */
+
+/* 写真をすべて非表示 */
 .content img {
   display: none !important;
 }
-/* 写真キャプションを非表示 */
 
-.content .photo {
+/* 写真キャプション・説明文っぽい要素を非表示 */
+.content .desc,
+.content .description,
+.content .note,
+.content .caption,
+.content .photo,
+.content .photo-note {
   display: none !important;
 }
 /* 長文説明だけ非表示（最初の段落以外） */
