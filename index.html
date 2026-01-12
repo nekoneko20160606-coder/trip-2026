@@ -740,8 +740,33 @@ img.hero{
   border-radius: 14px;
   border: 1px solid rgba(231,238,252,.12);
 }
+/* ===== スマホ：詳細ボタンを固定表示（右下） ===== */
+@media (max-width: 768px){
+  #toggleDetails.detailsBtn{
+    position: fixed;
+    right: 14px;
+    bottom: 14px;
+    z-index: 9999;
 
+    /* 押しやすさ */
+    padding: 12px 14px;
+    border-radius: 999px;
 
+    /* 画面上でも目立つ */
+    box-shadow: 0 14px 30px rgba(0,0,0,.45);
+  }
+
+  /* iPhoneの下のバーに被りにくくする保険 */
+  @supports (padding: max(0px)){
+    #toggleDetails.detailsBtn{
+      bottom: max(14px, env(safe-area-inset-bottom));
+      right:  max(14px, env(safe-area-inset-right));
+    }
+  }
+}
+@media (max-width: 768px){
+  .topbar #toggleDetails{ display:none; } /* 上のボタンを隠す */
+}
 
 
 
@@ -1755,5 +1780,6 @@ img.hero{
 </body>
 
 </html>
+
 
 
