@@ -130,6 +130,17 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }   
+/* 写真だけ非表示 */
+.content img {
+  display: none !important;
+}
+
+/* 長文説明だけ非表示（最初の段落以外） */
+.content p + p {
+  display: none;
+}
+
+    
   </style>
 </head>
 <body>
