@@ -143,7 +143,28 @@
 .content p + p {
   display: none;
 }
+/* ===== 今日だけ見る版：写真を完全に非表示 ===== */
 
+/* imgタグ（観光・ホテル写真すべて） */
+.content img {
+  display: none !important;
+}
+
+/* figure / picture / 写真ラッパー対策 */
+.content figure,
+.content picture {
+  display: none !important;
+}
+
+/* 画像リンクだけ残るのを防ぐ */
+.content a:has(img) {
+  display: none !important;
+}
+
+/* 写真キャプション・説明文も消す */
+.content figcaption {
+  display: none !important;
+}
     
   </style>
 </head>
