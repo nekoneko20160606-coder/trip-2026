@@ -1789,7 +1789,7 @@ img.hero{
       if(p.classList.contains('detail-only')) continue;
 
       // 短い要点や時刻行、キーワード行は「常時表示」にする
-      if(t.length <= 25) continue;
+      if(t.length <= 0) continue;
       if(timeLike.test(t)) continue;
       if(keepWords.some(w => t.includes(w))) continue;
 
@@ -1806,6 +1806,7 @@ img.hero{
 </body>
 
 </html>
+
 
 
 
