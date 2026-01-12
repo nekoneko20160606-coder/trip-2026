@@ -1,362 +1,177 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>今日だけ見る｜家族旅行しおり</title>
-  <style>
-    :root{
-      --bg:#0b1020;
-      --paper:#0f172a;
-      --card:#111c35;
-      --text:#e7eefc;
-      --muted:#b7c3df;
-      --line:rgba(231,238,252,.12);
-      --accent:#66a3ff;
-      --shadow: 0 12px 28px rgba(0,0,0,.35);
-      --radius: 18px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(102,163,255,.14), transparent 60%),
-        radial-gradient(900px 600px at 90% 30%, rgba(124,255,178,.10), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
-      line-height:1.65;
-    }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 40px}
-    .topbar{
-      display:flex; flex-wrap:wrap; gap:10px 12px;
-      align-items:center; justify-content:space-between;
-      padding:14px 14px;
-      background: rgba(15,23,42,.75);
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 10px;
-      backdrop-filter: blur(10px);
-      z-index: 10;
-    }
-    .brand{display:flex; flex-direction:column; gap:2px; min-width: 240px;}
-    .brand .ttl{font-weight:800; letter-spacing:.02em}
-    .brand .sub{color:var(--muted); font-size:12px}
-    .controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end;}
-    select, button{
-      background: rgba(17,28,53,.9);
-      color: var(--text);
-      border:1px solid var(--line);
-      border-radius: 12px;
-      padding:10px 12px;
-      font-size:14px;
-      outline:none;
-    }
-    button{cursor:pointer}
-    button:hover{border-color: rgba(102,163,255,.45)}
-    .card{
-      margin-top:14px;
-      background: rgba(17,28,53,.78);
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px 14px;
-    }
-    .hint{color:var(--muted); font-size:13px; margin-top:6px}
-    .titleRow{
-      display:flex; flex-wrap:wrap; gap:10px 12px;
-      align-items: baseline; justify-content:space-between;
-    }
-    .titleRow h1{margin:0; font-size:20px}
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:6px 10px;
-      background: rgba(102,163,255,.10);
-      color: var(--text);
-      font-size:12px;
-      white-space:nowrap;
-    }
-    .hr{height:1px; background: var(--line); margin:14px 0}
-    .content{overflow-wrap:anywhere;}
-    .content h1,.content h2,.content h3,.content h4{margin: 14px 0 8px}
-    .content img{max-width:100%; height:auto; border-radius: 14px; border:1px solid var(--line)}
-    .content table{
-      width:100%;
-      border-collapse: collapse;
-      overflow:auto;
-      display:block;
-      border:1px solid var(--line);
-      border-radius: 14px;
-    }
-    .content th,.content td{
-      border-bottom:1px solid var(--line);
-      padding:10px 10px;
-      font-size:14px;
-      vertical-align:top;
-    }
-    .content tr:last-child td{border-bottom:none}
-    .footer{margin-top:16px; color:var(--muted); font-size:12px; text-align:center;}
-    .error{
-      color:#ffb4b4;
-      background: rgba(255,107,107,.10);
-      border:1px solid rgba(255,107,107,.25);
-      padding:12px 12px;
-      border-radius: 14px;
-      margin-top: 12px;
-    }
-    .miniRow{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:6px 10px;
-      background: rgba(255,184,107,.10);
-      color: var(--text);
-      font-size:12px;
-      white-space:nowrap;
-    }
- .brand .sub{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.4;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}   
-/* ===== 今日だけ見る版：不要要素を非表示 ===== */
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>今日だけ見る｜家族旅行しおり</title>
 
-/* 写真をすべて非表示 */
-.content img {
-  display: none !important;
+<style>
+:root{
+  --bg:#0b1020;
+  --card:#111c35;
+  --text:#e7eefc;
+  --muted:#b7c3df;
+  --line:rgba(231,238,252,.12);
+  --accent:#66a3ff;
+  --radius:18px;
+  --shadow:0 12px 28px rgba(0,0,0,.35);
 }
 
-/* 写真キャプション・説明文っぽい要素を非表示 */
-.content .desc,
-.content .description,
-.content .note,
-.content .caption,
-.content .photo,
-.content .photo-note {
-  display: none !important;
-}
-/* 長文説明だけ非表示（最初の段落以外） */
-.content p + p {
-  display: none;
-}
-/* ===== 今日だけ見る版：写真を完全に非表示 ===== */
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);
+font-family:system-ui,-apple-system,"Noto Sans JP","Yu Gothic",sans-serif;}
 
-/* imgタグ（観光・ホテル写真すべて） */
-.content img {
-  display: none !important;
+.wrap{max-width:980px;margin:auto;padding:16px}
+
+/* ===== ヘッダー ===== */
+.topbar{
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:space-between;align-items:center;
+  padding:12px 14px;background:#0f172a;
+  border:1px solid var(--line);border-radius:var(--radius);
+  position:sticky;top:8px;z-index:10;
+}
+.brand .ttl{font-weight:800}
+.brand .sub{font-size:12px;color:var(--muted)}
+
+.controls{display:flex;gap:8px}
+select,button{
+  background:#111c35;color:var(--text);
+  border:1px solid var(--line);
+  border-radius:12px;padding:8px 12px;
 }
 
-/* figure / picture / 写真ラッパー対策 */
+/* ===== カード ===== */
+.card{
+  margin-top:14px;padding:14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.titleRow{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.badge{
+  font-size:12px;border:1px solid var(--line);
+  padding:4px 8px;border-radius:999px;
+}
+.hr{height:1px;background:var(--line);margin:12px 0}
+
+/* ===== 抽出コンテンツ整理 ===== */
+.content img,
 .content figure,
-.content picture {
-  display: none !important;
+.content picture,
+.content figcaption{display:none!important;} /* 写真ゼロ */
+
+.content :is(h1,h2,h3,h4,h5,h6):first-of-type{
+  display:none!important; /* DAY見出し重複防止 */
 }
 
-/* 画像リンクだけ残るのを防ぐ */
-.content a:has(img) {
-  display: none !important;
+/* 説明文（段落）は消す */
+.content p{display:none!important;}
+
+/* 行程・表は残す */
+.content ul,.content ol,.content li{display:list-item}
+.content table{width:100%;border-collapse:collapse;margin-top:8px}
+.content th,.content td{
+  border-bottom:1px solid var(--line);
+  padding:8px;font-size:14px
 }
+.content tr:last-child td{border-bottom:none}
 
-/* 写真キャプション・説明文も消す */
-.content figcaption {
-  display: none !important;
-}
-/* ===== 今日だけ見る版：タイトル重複を解消 ===== */
-/* 抽出した先頭のDAY見出し（◆…）を消す */
-.content h1:first-child,
-.content h2:first-child,
-.content h3:first-child {
-  display: none !important;
-} 
-/* ===== 今日だけ見る版：観光の説明（長文）を消す ===== */
-.content p {
-  display: none !important;
-}
-
-
-
-
-
-    
-  </style>
+.footer{margin-top:12px;font-size:12px;color:var(--muted);text-align:center}
+.error{color:#ffb4b4}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="ttl">今日だけ見る｜家族旅行しおり</div>
-    <div class="sub">本編（トップ）から「DAY見出し」を自動抽出して表示</div>
-      </div>
+<div class="wrap">
 
-      <div class="controls">
-        <div class="miniRow">
-          <label for="daySelect" class="hint" style="margin:0">DAY選択</label>
-          <select id="daySelect"></select>
-        </div>
-        <button id="btnToday" type="button">今日に戻す</button>
-        <button id="btnOpenMain" type="button">本編を開く</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="titleRow">
-        <h1 id="headline">読み込み中…</h1>
-        <div class="badge" id="badge">—</div>
-      </div>
-      <div class="hint" id="subline">本編ページから、該当日のセクションを抜き出しています。</div>
-      <div class="hr"></div>
-      <div class="content" id="content"></div>
-      <div class="footer">家族LINEには「/today.html」だけ送ればOK（毎日ここを見る）</div>
-    </div>
+<!-- ===== 上部 ===== -->
+<div class="topbar">
+  <div class="brand">
+    <div class="ttl">今日だけ見る｜家族旅行しおり</div>
+    <div class="sub">本編（トップ）からDAY内容のみ表示</div>
   </div>
+  <div class="controls">
+    <select id="daySelect"></select>
+    <button id="btnToday">今日に戻す</button>
+    <button id="btnOpenMain">本編</button>
+  </div>
+</div>
 
-  <script>
-    // ===== 設定 =====
-    // 旅行開始日（JST想定）：2026-02-09（1日目）
-    const TRIP_START = new Date('2026-02-09T00:00:00+09:00');
-    const TRIP_DAYS = 7;
+<!-- ===== 本体 ===== -->
+<div class="card">
+  <div class="titleRow">
+    <h1 id="headline">読み込み中…</h1>
+    <div class="badge" id="badge">—</div>
+  </div>
+  <div class="hr"></div>
+  <div id="content" class="content"></div>
+  <div class="footer">家族LINEには /today.html だけ送ればOK</div>
+</div>
 
-    // 本編の見出し「◆ 3日目｜」などを検出
-    const DAY_HEADING_RE = /◆\s*(\d+)\s*日目｜/;
+</div>
 
-    // ===== 共通 =====
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+<script>
+const TRIP_START = new Date('2026-02-09T00:00:00+09:00');
+const TRIP_DAYS = 7;
+const DAY_RE = /◆\s*(\d+)\s*日目｜/;
 
-    function calcTripDayFromNow(){
-      const now = new Date();
-      // 日付差はUTCのミッドナイトで計算（タイムゾーン差でズレない）
-      const a = Date.UTC(TRIP_START.getFullYear(), TRIP_START.getMonth(), TRIP_START.getDate());
-      const b = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-      const diffDays = Math.floor((b - a) / 86400000);
-      const day = diffDays + 1; // diffDays=0 => 1日目
-      return clamp(day, 1, TRIP_DAYS);
+function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+function todayDay(){
+  const a=Date.UTC(TRIP_START.getFullYear(),TRIP_START.getMonth(),TRIP_START.getDate());
+  const b=Date.UTC(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+  return clamp(Math.floor((b-a)/86400000)+1,1,TRIP_DAYS);
+}
+function fillSelect(d){
+  daySelect.innerHTML='';
+  for(let i=1;i<=TRIP_DAYS;i++){
+    const o=document.createElement('option');
+    o.value=i;o.textContent=`DAY ${i}`;
+    if(i===d)o.selected=true;
+    daySelect.appendChild(o);
+  }
+}
+
+async function loadDay(day){
+  fillSelect(day);
+  content.innerHTML='';
+  try{
+    const html=await (await fetch('./index.html',{cache:'no-store'})).text();
+    const doc=new DOMParser().parseFromString(html,'text/html');
+    const heads=[...doc.querySelectorAll('h1,h2,h3,h4,h5,h6')]
+      .map(h=>({h,m:(h.textContent||'').match(DAY_RE)}))
+      .filter(x=>x.m)
+      .map(x=>({el:x.h,day:+x.m[1]}));
+
+    const t=heads.find(x=>x.day===day);
+    if(!t){content.innerHTML='<div class="error">DAYが見つかりません</div>';return;}
+
+    headline.textContent=(t.el.textContent||'').replace(/^◆\s*/,'');
+    badge.textContent=`DAY ${day}/${TRIP_DAYS}`;
+
+    const sib=[...t.el.parentElement.children];
+    const i=sib.indexOf(t.el);
+    for(let n=i;n<sib.length;n++){
+      if(n!==i && DAY_RE.test(sib[n].textContent||''))break;
+      content.appendChild(sib[n].cloneNode(true));
     }
+  }catch(e){
+    content.innerHTML='<div class="error">読み込み失敗</div>';
+  }
+}
 
-    function fillDaySelect(selected){
-      const sel = document.getElementById('daySelect');
-      sel.innerHTML = '';
-      for(let i=1;i<=TRIP_DAYS;i++){
-        const opt = document.createElement('option');
-        opt.value = String(i);
-        opt.textContent = `DAY ${i}`;
-        if(i === selected) opt.selected = true;
-        sel.appendChild(opt);
-      }
-    }
+const daySelect=document.getElementById('daySelect');
+const content=document.getElementById('content');
+const headline=document.getElementById('headline');
+const badge=document.getElementById('badge');
 
-    function setStatus(day, headingText){
-      const badge = document.getElementById('badge');
-      const headline = document.getElementById('headline');
-      badge.textContent = `DAY ${day} / ${TRIP_DAYS}`;
-      headline.textContent = headingText ? headingText : `DAY ${day}（今日だけ）`;
-    }
-
-    function setError(html){
-      document.getElementById('content').innerHTML = `<div class="error">${html}</div>`;
-    }
-
-    // ===== 抽出ロジック（重複しない版）=====
-    async function loadDay(day){
-      fillDaySelect(day);
-      document.getElementById('content').innerHTML = '';
-      document.getElementById('subline').textContent = '本編ページから、該当日のセクションを抜き出しています。';
-      setStatus(day, '読み込み中…');
-
-      try{
-        // 本編（index.html）取得。'./' でOK（GitHub Pagesのルート= index.html）
-        const res = await fetch('./', { cache: 'no-store' });
-        if(!res.ok) throw new Error(`fetch failed: ${res.status}`);
-        const html = await res.text();
-
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-
-        // 見出し候補から「◆ n日目｜」を探す
-        const headings = Array.from(doc.querySelectorAll('h1,h2,h3,h4,h5,h6'));
-        const dayHeads = headings
-          .map(h => ({ el: h, m: (h.textContent || '').match(DAY_HEADING_RE) }))
-          .filter(x => x.m)
-          .map(x => ({ el: x.el, day: Number(x.m[1]) }))
-          .filter(x => x.day >= 1 && x.day <= TRIP_DAYS);
-
-        const target = dayHeads.find(x => x.day === day);
-        if(!target){
-          setStatus(day, `DAY ${day}（今日だけ）`);
-          setError(`本編に「◆ ${day}日目｜…」の見出しが見つかりませんでした。<br>
-            本編側の見出しが変わった可能性があります。<br>
-            <a href="./" target="_blank" rel="noopener">本編（/）を開く</a>`);
-          return;
-        }
-
-        const startEl = target.el;
-
-        // ★重要：DOM順に全部拾うと親子重複が起きるため、
-        // 「startEl と同じ親の子要素（兄弟）」だけを順に拾っていく
-        const parent = startEl.parentElement;
-        if(!parent) throw new Error('start heading has no parent element');
-
-        const siblings = Array.from(parent.children);
-        const startIdx = siblings.indexOf(startEl);
-        if(startIdx < 0) throw new Error('failed to locate start heading among siblings');
-
-        const extracted = [];
-        for(let i = startIdx; i < siblings.length; i++){
-          const el = siblings[i];
-
-          // startEl以外で、次の「◆ n日目｜」が来たら止める
-          if(el !== startEl){
-            const m = (el.textContent || '').match(DAY_HEADING_RE);
-            if(m) break;
-          }
-          extracted.push(el.cloneNode(true));
-        }
-
-        // 表示
-        const content = document.getElementById('content');
-        extracted.forEach(n => content.appendChild(n));
-
-        // タイトル整形
-        const headingText = (startEl.textContent || '').trim().replace(/^◆\s*/,'');
-        setStatus(day, headingText);
-
-        document.getElementById('subline').innerHTML =
-          `詳細は本編：<a href="./" target="_blank" rel="noopener">/（トップ）</a>`;
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      }catch(e){
-        setStatus(day, `DAY ${day}（今日だけ）`);
-        setError(`読み込みに失敗しました：${String(e.message || e)}<br>
-          <a href="./" target="_blank" rel="noopener">本編（/）を開く</a>`);
-      }
-    }
-
-    // ===== 起動 =====
-    const initialDay = calcTripDayFromNow();
-    loadDay(initialDay);
-
-    document.getElementById('daySelect').addEventListener('change', (e) => {
-      const day = Number(e.target.value);
-      loadDay(day);
-    });
-
-    document.getElementById('btnToday').addEventListener('click', () => {
-      loadDay(calcTripDayFromNow());
-    });
-
-    document.getElementById('btnOpenMain').addEventListener('click', () => {
-      window.open('./', '_blank', 'noopener');
-    });
-  </script>
+loadDay(todayDay());
+daySelect.onchange=e=>loadDay(+e.target.value);
+btnToday.onclick=()=>loadDay(todayDay());
+btnOpenMain.onclick=()=>window.open('./','_blank');
+</script>
 </body>
 </html>
