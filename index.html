@@ -1,0 +1,1697 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>家族旅行しおり｜2026.2.9–2.15（Web版）</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --paper:#0f172a;
+      --card:#111c35;
+      --card2:#0f1a32;
+      --text:#e7eefc;
+      --muted:#b7c3df;
+      --line:rgba(231,238,252,.12);
+      --accent:#66a3ff;   /* day */
+      --food:#ffb86b;     /* food */
+      --money:#c8d2ea;    /* money */
+      --ok:#7CFFB2;
+      --warn:#ff6b6b;
+      --shadow: 0 12px 28px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(102,163,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 85% 20%, rgba(255,184,107,.10), transparent 60%),
+        radial-gradient(1000px 800px at 60% 90%, rgba(124,255,178,.08), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:1040px;margin:0 auto;padding:24px 16px 56px}
+    .hero{
+      background: linear-gradient(135deg, rgba(102,163,255,.22), rgba(17,28,53,.95));
+      border:1px solid var(--line);
+      border-radius: 26px;
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-60px -60px auto auto;
+      width:280px;height:280px;border-radius:50%;
+      background:radial-gradient(circle, rgba(255,184,107,.35), transparent 65%);
+      filter: blur(2px);
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size: 22px;
+      letter-spacing:.02em;
+    }
+    .hero .sub{
+      margin:0 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.55);
+      color: var(--muted);
+    }
+    .chip strong{color:var(--text);font-weight:700}
+    .topimg{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .topimg img{
+      width:100%;
+      height:auto;
+      border-radius: 18px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+    }
+
+    /* Sticky nav */
+    .nav{
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+      margin: 14px 0 18px;
+      padding: 10px;
+      border-radius: 16px;
+      border:1px solid var(--line);
+      background: rgba(10,16,32,.72);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 20px rgba(0,0,0,.22);
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+    }
+    .nav a{
+      text-decoration:none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(231,238,252,.14);
+      background: rgba(17,28,53,.45);
+      color: var(--muted);
+      font-size: 13px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: transform .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+    }
+    .nav a:hover{transform: translateY(-1px); background: rgba(17,28,53,.70); color: var(--text)}
+    .nav a.active{
+      color: var(--text);
+      border-color: rgba(102,163,255,.55);
+      background: rgba(102,163,255,.18);
+    }
+    .nav a.food.active{
+      border-color: rgba(255,184,107,.65);
+      background: rgba(255,184,107,.14);
+    }
+    .nav a.money.active{
+      border-color: rgba(200,210,234,.70);
+      background: rgba(200,210,234,.12);
+    }
+
+    /* Cards */
+    section{scroll-margin-top: 88px;}
+    .card{
+      margin: 14px 0 18px;
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(17,28,53,.82), rgba(15,26,50,.82));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .head{
+      padding: 16px 16px 12px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(102,163,255,.45);
+      background: rgba(102,163,255,.12);
+      color: var(--text);
+      white-space:nowrap;
+    }
+    .badge.food{border-color: rgba(255,184,107,.55); background: rgba(255,184,107,.12);}
+    .badge.money{border-color: rgba(200,210,234,.65); background: rgba(200,210,234,.10);}
+    .title{
+      margin:0;
+      font-size:18px;
+      line-height:1.35;
+    }
+    .route{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .meta{
+      display:flex;gap:8px;flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .meta span{
+      font-size:12px;
+      color: var(--muted);
+      border:1px solid var(--line);
+      padding:5px 9px;
+      border-radius: 999px;
+      background: rgba(11,16,32,.28);
+    }
+    .body{padding: 14px 16px 18px;}
+    .block{
+      margin: 14px 0 0;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(231,238,252,.12);
+      background: rgba(0,0,0,.18);
+    }
+    .block h3{
+      margin:0 0 8px;
+      font-size:14px;
+      color: var(--text);
+      letter-spacing:.02em;
+    }
+    .block p{margin:0 0 8px;color:var(--muted);font-size:13px}
+    .block p:last-child{margin-bottom:0}
+
+    /* Images */
+    .imgs{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin: 10px 0 0;
+    }
+    @media (min-width:720px){
+      .topimg{grid-template-columns: 1.4fr .6fr;}
+      .imgs{grid-template-columns: repeat(2, 1fr);}
+    }
+    @media (min-width:980px){
+      .imgs{grid-template-columns: repeat(3, 1fr);}
+    }
+    .imgs img{
+      width:100%;
+      height:auto;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.25);
+    }
+
+    /* Tables */
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(231,238,252,.12);
+      background: rgba(0,0,0,.18);
+      margin-top:10px;
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      font-size: 13px;
+    }
+    th, td{
+      border-bottom: 1px solid rgba(231,238,252,.10);
+      padding: 10px 10px;
+      vertical-align: top;
+    }
+    th{
+      position: sticky;
+      top: 0;
+      background: rgba(15,26,50,.92);
+      text-align:left;
+      color: var(--text);
+      font-weight: 700;
+      z-index: 1;
+    }
+    td{color: var(--muted);}
+    td strong{color: var(--text);}
+
+    /* Accordion */
+    details{
+      border-radius: 14px;
+      border:1px solid rgba(231,238,252,.12);
+      background: rgba(0,0,0,.16);
+      margin-top:10px;
+      overflow:hidden;
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      user-select:none;
+    }
+    summary::-webkit-details-marker{display:none;}
+    .sum-right{display:inline-flex;gap:8px;align-items:center;color:var(--muted);font-weight:600}
+    .kbd{
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 8px;
+      border:1px solid rgba(231,238,252,.16);
+      background: rgba(15,26,50,.55);
+      color: var(--muted);
+    }
+    .details-body{padding: 0 12px 12px;}
+    .divider{height:1px;background:var(--line);margin:12px 0}
+
+    /* Footer */
+    .foot{
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align:center;
+      opacity:.9;
+    }
+
+    /* ===============================
+       Relax Layout (6日目くらいのゆったり)
+       ※HTMLは触らず、見た目だけを全体に適用
+    ================================ */
+
+    body{
+      line-height: 1.9;
+      letter-spacing: .01em;
+    }
+    .hero .sub{ line-height: 1.7; }
+
+    .wrap{
+      max-width: 980px;
+      padding: 30px 16px 78px;
+    }
+
+    .card{
+      margin: 18px 0 26px;
+    }
+
+    .card .head{
+      padding: 18px 18px 14px;
+      gap: 14px;
+    }
+
+    .body{
+      padding: 18px 18px 24px;
+    }
+
+    .block{
+      margin: 18px 0 0;
+      padding: 16px 16px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.16);
+    }
+
+    .title{ font-size: 19px; line-height: 1.4; }
+    .route{ font-size: 14px; }
+
+    .block h3{
+      font-size: 15px;
+      margin: 0 0 10px;
+    }
+    .block p{
+      font-size: 14px;
+      line-height: 1.95;
+      margin: 0 0 10px;
+    }
+    .block p:last-child{ margin-bottom: 0; }
+
+    .divider{
+      margin: 18px 0;
+      opacity: .85;
+    }
+
+    .imgs{
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (min-width:720px){
+      .imgs{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width:980px){
+      .imgs{ grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .imgs img, .topimg img{
+      border-radius: 16px;
+    }
+
+    details{
+      margin-top: 12px;
+    }
+    summary{
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+    .details-body{
+      padding: 0 14px 14px;
+    }
+
+    table{ font-size: 14px; }
+    th, td{ padding: 12px 12px; }
+
+    .body .block{
+      max-width: 860px;
+    }
+
+    .body .block .imgs,
+    .body .block .table-wrap{
+      max-width: none;
+    }
+
+    @media (max-width: 520px){
+      .block p{
+        font-size: 15px;
+        line-height: 2.0;
+      }
+      .block{
+        padding: 18px 16px;
+      }
+    }
+
+    .hero{
+      margin-bottom: 22px;
+    }
+  
+
+
+/* ===============================
+   Luxury polish (見た目だけ上質化)
+   ④⑤にも効く：全体の質感・影・文字・境界・画像・表を格上げ
+   ※HTML本文は触らない前提
+=============================== */
+
+:root{
+  /* “金”はやり過ぎない：淡いシャンパンゴールド */
+  --lux-gold: rgba(231, 201, 120, .85);
+  --lux-gold-soft: rgba(231, 201, 120, .18);
+  --lux-ink: rgba(231,238,252,.92);
+  --lux-muted: rgba(183,195,223,.88);
+  --lux-line: rgba(231,238,252,.10);
+  --lux-line2: rgba(231,238,252,.16);
+  --lux-shadow: 0 18px 42px rgba(0,0,0,.42);
+  --lux-shadow2: 0 10px 24px rgba(0,0,0,.28);
+}
+
+/* 全体の“紙質感”＋読みやすさ */
+body{
+  color: var(--lux-ink);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(102,163,255,.14), transparent 58%),
+    radial-gradient(900px 700px at 85% 20%, rgba(255,184,107,.08), transparent 62%),
+    radial-gradient(1000px 800px at 60% 90%, rgba(124,255,178,.06), transparent 62%),
+    linear-gradient(180deg, rgba(10,16,32,1), rgba(8,12,22,1));
+}
+
+/* HEROを“表紙っぽく” */
+.hero{
+  border-radius: 28px;
+  border: 1px solid rgba(231,238,252,.14);
+  box-shadow: var(--lux-shadow);
+  background:
+    radial-gradient(700px 280px at 15% 0%, rgba(231,201,120,.14), transparent 60%),
+    linear-gradient(135deg, rgba(102,163,255,.18), rgba(17,28,53,.92));
+}
+.hero h1{
+  font-size: 23px;
+  letter-spacing: .03em;
+}
+.hero .sub{
+  color: var(--lux-muted);
+}
+.chip{
+  border: 1px solid rgba(231,238,252,.14);
+  background: rgba(15,23,42,.50);
+}
+
+/* Sticky nav：ガラス感＋“上品な縁” */
+.nav{
+  border: 1px solid rgba(231,238,252,.14);
+  background: rgba(10,16,32,.64);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--lux-shadow2);
+}
+.nav a{
+  border: 1px solid rgba(231,238,252,.12);
+  background: rgba(17,28,53,.42);
+}
+.nav a.active{
+  border-color: rgba(231,201,120,.55);
+  background: rgba(231,201,120,.12);
+}
+.nav a.food.active{
+  border-color: rgba(231,201,120,.70);
+  background: rgba(231,201,120,.12);
+}
+.nav a.money.active{
+  border-color: rgba(231,201,120,.55);
+  background: rgba(231,201,120,.10);
+}
+
+/* カード：厚みのある“レザー/紙”っぽい陰影 */
+.card{
+  border-radius: 20px;
+  border: 1px solid rgba(231,238,252,.12);
+  box-shadow: var(--lux-shadow);
+  background:
+    radial-gradient(900px 220px at 18% 0%, rgba(231,201,120,.10), transparent 65%),
+    linear-gradient(180deg, rgba(17,28,53,.84), rgba(15,26,50,.84));
+  position: relative;
+}
+.card::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius: 20px;
+  pointer-events:none;
+  /* 上辺に“薄いハイライト”を入れて高級感 */
+  background: linear-gradient(180deg, rgba(231,238,252,.07), transparent 28%);
+  mix-blend-mode: screen;
+  opacity: .85;
+}
+.card .head{
+  border-bottom: 1px solid rgba(231,238,252,.10);
+}
+.title{
+  letter-spacing: .02em;
+  font-weight: 780;
+}
+.route{
+  color: var(--lux-muted);
+}
+
+/* バッジ：金縁で上品に */
+.badge{
+  border: 1px solid rgba(231,201,120,.48);
+  background: rgba(231,201,120,.10);
+}
+.badge.food,
+.badge.money{
+  border-color: rgba(231,201,120,.52);
+  background: rgba(231,201,120,.09);
+}
+
+/* ブロック：余白＋境界の繊細さを強化（④⑤の文章が映える） */
+.block{
+  border: 1px solid rgba(231,238,252,.11);
+  background: rgba(0,0,0,.14);
+}
+.block h3{
+  letter-spacing: .03em;
+}
+.block p{
+  color: var(--lux-muted);
+}
+.block p strong{
+  color: var(--lux-ink);
+}
+
+/* Divider：金の“髪の毛ライン”風 */
+.divider{
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(231,201,120,.55),
+    rgba(231,238,252,.10),
+    rgba(231,201,120,.30),
+    transparent
+  );
+  opacity: .95;
+}
+
+/* 画像：トーンを整えて“写真集”っぽく */
+.imgs img,
+.topimg img{
+  border: 1px solid rgba(231,238,252,.12);
+  box-shadow: 0 10px 22px rgba(0,0,0,.28);
+  filter: saturate(1.06) contrast(1.02) brightness(1.02);
+  background: rgba(0,0,0,.20);
+}
+
+/* details：折りたたみの品 */
+details{
+  border: 1px solid rgba(231,238,252,.11);
+  background: rgba(0,0,0,.14);
+}
+summary{
+  border-bottom: 1px solid rgba(231,238,252,.10);
+}
+.kbd{
+  border: 1px solid rgba(231,201,120,.26);
+  background: rgba(231,201,120,.10);
+}
+
+/* 表：高級ホテルの案内表っぽく（読みやすさ＋格） */
+.table-wrap{
+  border: 1px solid rgba(231,238,252,.11);
+  background: rgba(0,0,0,.14);
+}
+table{
+  border-collapse: separate;
+  border-spacing: 0;
+}
+th{
+  background: rgba(15,26,50,.90);
+  border-bottom: 1px solid rgba(231,238,252,.10);
+}
+td{
+  color: var(--lux-muted);
+}
+tbody tr:nth-child(odd) td{
+  background: rgba(255,255,255,.02);
+}
+tbody tr:hover td{
+  background: rgba(231,201,120,.06);
+}
+
+/* フッターも“締まる” */
+.foot{
+  color: rgba(183,195,223,.80);
+}
+
+/* モバイルでの可読性を少し上げる（高級＝読みやすい） */
+@media (max-width: 520px){
+  .title{ font-size: 19px; }
+  .route{ font-size: 14px; }
+  .block p{ font-size: 15px; }
+}
+
+/* =====================================
+   FINAL LUXURY FINISH
+   1) 見出しの箔押し感
+   2) 余白の雑誌化
+   3) 画像トーン統一
+   ※HTMLは触らない
+===================================== */
+
+/* --- 1) 見出し：箔押しゴールド下線 --- */
+.title,
+.block h3{
+  position: relative;
+}
+
+.title::after{
+  content:"";
+  display:block;
+  width: 48px;
+  height: 2px;
+  margin-top: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(231,201,120,.9),
+    rgba(231,201,120,.35),
+    rgba(231,201,120,.9)
+  );
+  border-radius: 2px;
+}
+
+.block h3::after{
+  content:"";
+  display:block;
+  width: 28px;
+  height: 1.5px;
+  margin-top: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(231,201,120,.8),
+    rgba(231,201,120,.25),
+    rgba(231,201,120,.8)
+  );
+  border-radius: 2px;
+}
+
+/* 食事まとめ内の店名(h3連続)は控えめに */
+#sec-4 .block h3::after{
+  opacity: .7;
+  width: 22px;
+}
+
+/* --- 2) 余白：雑誌レイアウト --- */
+.body{
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+.block{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 980px){
+  .body{
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .block{
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* --- 3) 画像：トーンを統一（上品・写真集風） --- */
+.imgs img,
+.topimg img{
+  filter:
+    saturate(1.02)
+    contrast(1.03)
+    brightness(1.02);
+}
+
+/* hoverは“わずか”に（主張しすぎない） */
+.imgs img:hover,
+.topimg img:hover{
+  transform: translateY(-1px);
+  transition: transform .18s ease, filter .18s ease;
+}
+
+/* --- 微調整：文章ブロックの安定感 --- */
+.block p{
+  max-width: 60ch;
+}
+
+/* 表や画像ブロックは制限解除 */
+.block .imgs,
+.block .table-wrap{
+  max-width: none;
+}
+
+
+
+
+
+
+
+
+
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <header class="hero" id="top">
+      <h1>📘 家族旅行しおり｜2026.2.9（月）– 2.15（日）</h1>
+      <p class="sub">京都 → 高松 → 尾道 → 福山 → 倉敷 → 姫路 → 赤穂 → 都留 → 山中湖 → 忍野</p>
+      <div class="chips">
+        <span class="chip"><strong>運転ルール</strong>：連続3時間まで／眠気は理由不要で即交代</span>
+        <span class="chip"><strong>移動</strong>：自家用車＋電車（京都市内のみ）</span>
+        <span class="chip"><strong>燃費想定</strong>：28km/L</span>
+      </div>
+
+      <div class="topimg">
+        <img src="https://traveldiary.kimamanalife.jp/wp-content/uploads/2022/03/IMG_0067-1024x768.jpg" alt="山中湖" decoding="async" />
+        <img src="https://www.mtfuji-hotel.com/spa/_img/onsen/img01.jpg" alt="ホテルマウント富士 温泉" decoding="async" />
+      </div>
+    </header>
+
+    <!-- STICKY NAV -->
+    <nav class="nav" aria-label="セクション">
+      <a href="#sec-1" data-target="sec-1">① 1・2日目</a>
+      <a href="#sec-2" data-target="sec-2">② 3・4・5日目</a>
+      <a href="#sec-3" data-target="sec-3">③ 6・7日目</a>
+      <a class="food" href="#sec-4" data-target="sec-4">④ 🍽 食事まとめ</a>
+      <a class="money" href="#sec-5" data-target="sec-5">⑤ 💰 資金＋運転</a>
+    </nav>
+
+    <!-- ① -->
+    <section id="sec-1" class="card">
+      <div class="head">
+        <div>
+          <div class="badge">① 1・2日目</div>
+          <h2 class="title">熊谷 → 名古屋 → 京都（山科駐車→電車）／京都観光 → 高松</h2>
+          <p class="route">2026/2/9（月）〜 2/10（火）</p>
+          <div class="meta">
+            <span>前半：剛・瑞貴・翼</span>
+            <span>剛：2日目 運転休養日</span>
+            <span>京都市内のみ電車</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="block">
+          <h3>■ 基本情報</h3>
+          <p>* <strong>日程</strong>：2026年2月9日（月）〜2月15日（日）〈6泊7日〉</p>
+          <p>* <strong>移動</strong>：自家用車＋電車（京都市内のみ）</p>
+          <p>* <strong>人数</strong></p>
+          <p>&nbsp;&nbsp;* 剛（53）<br>&nbsp;&nbsp;* 瑞貴（21）<br>&nbsp;&nbsp;* 翼（18・運転初心者）<br>&nbsp;&nbsp;* 真美（51）※後半合流<br>&nbsp;&nbsp;* 恵（9）※後半合流</p>
+          <p>* <strong>ETC</strong>：ETCマイレージ＋地方部割引、2月11日14日15日は休日割引のみ</p>
+          <p>* <strong>燃費想定</strong>：28km/L</p>
+        </div>
+
+        <div class="block">
+          <h3>■ 運転ルール（最優先）</h3>
+          <p><strong>連続運転 最大3時間</strong><br>
+             <strong>眠気・違和感 → 理由不要で即交代</strong><br>
+             <strong>観光より安全・運転計画を最優先</strong>
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="block">
+          <h3>◆ 1日目｜2/9（月） 熊谷 → 名古屋（観光）→ 京都（山科駐車→電車）</h3>
+          <p><strong>⏰ 行程（運転・合流・移動）</strong><br>
+            * 08:00　熊谷 発<br>
+            * 11:30〜15:20　名古屋 観光（剛・瑞貴）<br>
+            * 15:30　名古屋駅で翼と合流<br>
+            * 以降：車で山科駅前駐車場 → 電車でホテルへ
+          </p>
+
+          <details open>
+            <summary>
+              🚗 運転（1日目）
+              <span class="sum-right"><span class="kbd">表</span> タップで開閉</span>
+            </summary>
+            <div class="details-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>区間</th><th>距離</th><th>運転時間</th><th>運転</th><th>出発→到着（目安）</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>熊谷 → 海老名SA</td><td>105km</td><td>1時間40分</td><td>剛</td><td>08:00→09:40</td></tr>
+                    <tr><td>海老名SA → 浜松SA</td><td>192km</td><td>2時間15分</td><td>瑞貴</td><td>10:00→12:15</td></tr>
+                    <tr><td>浜松SA → 名古屋駅</td><td>110km</td><td>1時間20分</td><td>剛</td><td>12:30→13:50</td></tr>
+                    <tr><td>名古屋駅 → 鈴鹿PA</td><td>50km</td><td>40分</td><td>瑞貴</td><td>15:45→16:25</td></tr>
+                    <tr><td>鈴鹿PA → 大津SA（下り）</td><td>63km</td><td>55分</td><td>翼</td><td>16:40→17:35</td></tr>
+                    <tr><td>大津SA（下り） → 山科駅前駐車場</td><td>5.4km</td><td>15分</td><td>剛</td><td>17:45→18:00</td></tr>
+                    <tr><td>山科駅前駐車場 → 電車</td><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="block">
+            <h3>🏯 名古屋観光</h3>
+            <div class="imgs">
+              <img src="https://www.tabi-samurai-japan.com/as/img/area/chubu/aichi/nagoya/summer/img01.jpg" alt="名古屋城" loading="lazy" decoding="async" />
+              <img src="https://kinshachi-yokocho.com/wp/wp-content/themes/kinshachi/assets/images/top/area_image_yoshinao-sp.webp" alt="金シャチ横丁" loading="lazy" decoding="async" />
+              <img src="https://igx.4sqi.net/img/general/750x500/295826_gIu0sLAm5Rnb7ihtxcU-sfR9NjwA9QCDo3eOEe3Vros.jpg" alt="大須観音" loading="lazy" decoding="async" />
+              <img src="https://shachime.com/wp-content/img/2/osu/osu.jpg" alt="大須商店街" loading="lazy" decoding="async" />
+            </div>
+            <p>
+              * 11:30〜12:45｜<strong>名古屋城</strong><br>
+              &nbsp;&nbsp;金鯱が象徴。城郭と石垣のスケール感を外観中心に体感。<br><br>
+              * 13:00〜13:40｜<strong>金シャチ横丁</strong><br>
+              &nbsp;&nbsp;名古屋名物を短時間で味わえる飲食ゾーン。<br><br>
+              * 14:00〜14:30｜<strong>大須観音</strong><br>
+              &nbsp;&nbsp;庶民信仰の寺院。下町と観光が混在する独特の雰囲気。<br><br>
+              * 14:40〜15:20｜<strong>大須商店街</strong><br>
+              &nbsp;&nbsp;食と雑貨が並ぶ活気ある商店街。歩くだけで名古屋らしさ。
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>🏨 宿泊（京都）</h3>
+            <div class="imgs">
+              <img src="https://www.jalan.net/jalan/images/pict2L/Y7/Y300267/Y300267433.jpg" alt="京都：大浴場イメージ" loading="lazy" decoding="async" />
+              <img src="https://www.gardenhotels.co.jp/assets/images/kyoto-kawaramachi-jokyoji/room/triple/01.jpg" alt="三井ガーデンホテル京都四条：客室" loading="lazy" decoding="async" />
+              <img src="https://www.img-ikyu.com/contents/common/image/acc5/00001985/4/org/10447773.jpg?auto=compress,format&lossless=0&fit=crop&w=748&h=400" alt="京都：大浴場イメージ2" loading="lazy" decoding="async" />
+            </div>
+            <p><strong>三井ガーデンホテル京都四条</strong></p>
+            <p>* トリプル／朝食なし／大浴場あり<br>* <strong>9,822円（3人）</strong></p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="block">
+          <h3>◆ 2日目｜2/10（火） 京都観光 →（電車で山科へ）→ 山科駅前駐車場スタート → 高松</h3>
+          <p>※ <strong>剛 運転休養日</strong></p>
+
+          <div class="block">
+            <h3>🏯 京都観光</h3>
+
+            <div class="imgs">
+              <img src="https://souda-kyoto.jp/blog/ea410e000000c9rx-img/2.jpg" alt="伏見稲荷大社" loading="lazy" decoding="async" />
+              <img src="https://inari.jp/kanban/images/img1.png" alt="伏見稲荷" loading="lazy" decoding="async" />
+              <img src="https://cdn.qleanmarket.amanaimages.com/uploads/items/045/162/57/preview/FYI04516257.jpg" alt="伏見稲荷" loading="lazy" decoding="async" />
+            </div>
+
+            <p>
+              * 07:45〜08:45｜<strong>伏見稲荷大社</strong><br>
+              &nbsp;&nbsp;全国に約3万社ある稲荷神社の総本宮。<br>千本鳥居が連なる朱色の回廊。京都を象徴する景観。<br><br>
+            </p>
+
+            <div class="imgs">
+              <img src="https://kyoetsu-gion.com/wp-content/uploads/2023/09/%E6%B8%85%E6%B0%B4%E5%AF%BA_%E4%B8%89%E9%87%8D%E3%81%AE%E5%A1%94.jpg" alt="清水寺" loading="lazy" decoding="async" />
+              <img src="https://slowandtravel.com/wp-content/uploads/2016/03/kiyomizudera-cover.jpg" alt="清水寺" loading="lazy" decoding="async" />
+              <img src="https://www.kiyomizudera.or.jp/assets/img/history/hall_ph_05.jpg" alt="本堂" loading="lazy" decoding="async" />
+            </div>
+
+            <p>
+              * 09:15〜10:15｜<strong>清水寺</strong><br>
+              &nbsp;&nbsp;清水寺は、天台宗の開祖、伝教大師によって開かれた古刹。<br>舞台から望む市街地と木造建築の迫力。<br><br>
+            </p>
+
+            <div class="imgs">
+              <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/a0/cd/a5/caption.jpg?w=900&h=500&s=1" alt="二年坂" loading="lazy" decoding="async" />
+              <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/keihanamura/20230112/20230112192359.jpg" alt="清水寺" loading="lazy" decoding="async" />
+              <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/r/ritocamp/20250329/20250329125544.jpg" alt="二年坂・三年坂" loading="lazy" decoding="async" />
+            </div>
+
+            <p>
+              * 10:15〜10:30｜<strong>二年坂・三年坂</strong><br>
+              &nbsp;&nbsp;清水寺への参道で、風情ある石畳の道と町家が並び、<br>
+              土産物店や飲食店が連なる京都の人気の散策ルートです。<br><br>
+              * 10:30｜（電車で山科駐車場へ）京都出発
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>🌿 栗林公園</h3>
+            <div class="imgs">
+              <img src="https://assets.my-kagawa.jp/storage/tourism_attractions/10077/responsive_images/7NkkY3dNBvFUAzXM9Xf0NwC1rxeNdvPJtFqou4Ri__1787_1340.jpeg" alt="栗林公園" loading="lazy" decoding="async" />
+              <img src="https://rcreation.jp/wdprs/wp-content/uploads/2018/03/rcreation-VJ370.jpg" alt="栗林公園（庭園）" loading="lazy" decoding="async" />
+              <img src="https://omicole.net/images/souvenir/199/photo_320.jpeg" alt="栗林公園（名物）" loading="lazy" decoding="async" />
+            </div>
+            <p>* 16:00〜17:00｜<strong>栗林公園</strong><br>
+              栗林公園は、香川県高松市に所在する江戸時代初期に築庭された回遊式大名庭園。<br>
+              1875年に県立公園として一般公開を開始し、1953年に国の特別名勝に指定された歴史公園である。
+            </p>
+          </div>
+
+          <details open>
+            <summary>
+              🚗 運転（2日目）
+              <span class="sum-right"><span class="kbd">表</span> タップで開閉</span>
+            </summary>
+            <div class="details-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>区間</th><th>距離</th><th>運転時間</th><th>運転</th><th>出発→到着（目安）</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>山科駅前駐車場 → 淡路SA</td><td>123km</td><td>1時間50分</td><td>瑞貴</td><td>13:30→15:20</td></tr>
+                    <tr><td>淡路SA → 高松</td><td>133km</td><td>1時間50分</td><td>翼</td><td>15:35→17:25</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="block">
+            <h3>🏨 宿泊（高松）</h3>
+            <div class="imgs">
+              <img src="https://cdn.jalan.jp/jalan/images/pict2L/Y8/Y360168/Y360168596.jpg" alt="高松：客室イメージ" loading="lazy" decoding="async" />
+              <img src="https://pix10.agoda.net/hotelImages/9078088/633601321/04658b81dcf231a980509c149e46b143.jpg?ce=0&s=414x232" alt="ホテル エリアワン 高松：外観/客室イメージ" loading="lazy" decoding="async" />
+            </div>
+
+            <p><strong>ホテル エリアワン 高松</strong></p>
+            <p>* トリプル／朝食なし／大浴場なし<br>* <strong>12,354円（3人）</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② -->
+    <section id="sec-2" class="card">
+      <div class="head">
+        <div>
+          <div class="badge">② 3・4・5日目</div>
+          <h2 class="title">高松 → 尾道 → 福山／福山 → 倉敷 → 姫路 → 赤穂／赤穂 → 都留</h2>
+          <p class="route">2026/2/11（水・祝）〜 2/13（金）</p>
+          <div class="meta">
+            <span>3日目：翼・瑞貴 運転休養日</span>
+            <span>4日目：翼・瑞貴 軽負担日</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="block">
+          <h3>◆ 3日目｜2/11（水・祝） 高松 → 尾道 → 福山</h3>
+
+          <div class="block">
+            <h3>🏙 高松</h3>
+            <div class="imgs">
+              <img src="https://assets.st-note.com/img/1720064244732-GdWoo0xXI4.jpg?width=2000&height=2000&fit=bounds&quality=85" alt="サンポート高松" loading="lazy" decoding="async" />
+              <img src="https://dm9p0p2npaqik.cloudfront.net/spots/890812/5421011/9066959/3.webp" alt="高松港" loading="lazy" decoding="async" />
+            </div>
+            <p>
+              * 08:15〜09:15｜<strong>高松港・サンポート高松</strong><br>
+              &nbsp;&nbsp;瀬戸内海の玄関口。穏やかな港町の景色。<br><br>
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>🍜 朝</h3>
+            <p>* 9:30〜10:15｜<strong>さか枝うどん 本店</strong><br>&nbsp;&nbsp;高松市の香川県庁裏手にある1963年創業の老舗手打ちうどん店。<br>朝7時から営業し、地元の人や観光客で賑わっている。</p>
+          </div>
+
+          <details open>
+            <summary>🚗 運転（3日目）<span class="sum-right"><span class="kbd">表</span> タップで開閉</span></summary>
+            <div class="details-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th><th>出発→到着（目安）</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>高松 → 尾道</td><td>120km</td><td>2時間00分</td><td>剛</td><td>12:00→14:00</td></tr>
+                    <tr><td>尾道 → 福山</td><td>22km</td><td>40分</td><td>剛</td><td>16:30→17:10</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="block">
+            <h3>🏯 尾道</h3>
+            <div class="imgs">
+              <img src="https://shichibutsu.jp/img/temple/senkouji/slider01.jpg?b=" alt="千光寺" loading="lazy" decoding="async" />
+              <img src="https://ab.jcci.or.jp/resize/800x800/201709_36_01-scaled.jpg" alt="尾道水道" loading="lazy" decoding="async" />
+            </div>
+            <p>
+              * 15:00〜16:30｜<strong>千光寺</strong><br>
+              &nbsp;&nbsp;尾道水道と市街地を見下ろす絶景のパワースポットとして有名なお寺。<br>
+              本堂は舞台造り、境内には「玉の岩」「くさり山」などの巨岩があり、<br>
+              開運厄除や諸願成就のご利益で人気。<br><br>
+              * 随時｜<strong>尾道水道</strong><br>
+              &nbsp;&nbsp;尾道市街と対岸の向島に挟まれた幅約200～500mの狭い海峡。<br>
+              「海の川」として中世から重要な交通路であり、日本遺産に認定された<br>
+              「箱庭的都市」の景観を形成。
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>🏨 宿泊（福山）</h3>
+            <div class="imgs">
+              <img src="https://www.hotel123.co.jp/hotelgroupwp/wp-content/uploads/2024/03/guest-room-08-3.webp" alt="福山：客室イメージ" loading="lazy" decoding="async" />
+              <img src="https://cdn.jalan.jp/jalan/images/pict2L/Y3/Y360573/Y360573182.jpg" alt="ホテル1-2-3 福山：外観/客室イメージ" loading="lazy" decoding="async" />
+              <img src="https://www.hotel123.co.jp/hotelgroupwp/wp-content/uploads/2024/02/sm-restaurant.webp" alt="福山：朝食/レストラン" loading="lazy" decoding="async" />
+            </div>
+
+            <p><strong>ホテル1-2-3 福山</strong></p>
+            <p>* トリプル／朝食あり／大浴場あり<br>* <strong>13,200円（3人）</strong></p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="block">
+          <h3>◆ 4日目｜2/12（木） 福山 → 倉敷 → 姫路 → 赤穂</h3>
+
+          <div class="block">
+            <h3>🏯 観光</h3>
+            <div class="imgs">
+              <img src="https://www.kurashiki-tabi.jp/wp-content/uploads/2023/12/standard_01_01.jpg" alt="倉敷美観地区" loading="lazy" decoding="async" />
+              <img src="https://kinarino.k-img.com/system/press_images/001/216/524/60791063afcb9ba3ff1b2ed0cdfe5fccfb3517e6.jpg?1524326256" alt="倉敷美観地区（街並み）" loading="lazy" decoding="async" />
+              <img src="https://www.okayama-kanko.jp/lsc/upfile/articleDetail/0000/0326/326_2_l.jpg" alt="倉敷美観地区（川沿い）" loading="lazy" decoding="async" />
+            </div>
+
+            <p>
+              * 午前｜<strong>倉敷美観地区</strong><br><br>
+              白壁の蔵屋敷、なまこ壁、柳並木など、趣ある景観が楽しめる倉敷美観地区。<br>
+              伝統的な建物が作り出す町並みや、倉敷川沿いのレトロモダンな風景が、世界中の人を魅了。<br><br><br>
+            </p>
+
+            <div class="imgs">
+              <img src="https://www.nippon.com/ja/ncommon/contents/guide-to-japan/2410074/2410074.jpg" alt="姫路城" loading="lazy" decoding="async" />
+              <img src="https://www.nippon.com/ja/ncommon/contents/guide-to-japan/2410085/2410085.jpg" alt="姫路城（天守）" loading="lazy" decoding="async" />
+            </div>
+
+            <!-- ✅ 太字暴走対策：タイトル段落と本文段落を分離（文言は同じ） -->
+            <p>
+              * 午後｜<strong>姫路城</strong><br><br>
+            </p>
+            <p>
+              現存天守の最高峰、近世城郭の傑作。白漆喰の美。別名は白鷺城。<br>
+              江戸時代初期に建てられた天守や櫓等の主要建築物が現存し、国宝や重要文化財に指定。<br><br>
+            </p>
+          </div>
+
+          <details open>
+            <summary>🚗 運転（4日目）<span class="sum-right"><span class="kbd">表</span> タップで開閉</span></summary>
+            <div class="details-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th><th>出発→到着（目安）</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>福山 → 倉敷</td><td>67km</td><td>1時間10分</td><td>瑞貴</td><td>08:30→09:40</td></tr>
+                    <tr><td>倉敷 → 姫路</td><td>98km</td><td>1時間30分</td><td>剛</td><td>11:30→13:00</td></tr>
+                    <tr><td>姫路 → 赤穂</td><td>40km</td><td>45分</td><td>翼</td><td>15:30→16:15</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="block">
+            <h3>🏨 宿泊（赤穂温泉）</h3>
+            <div class="imgs">
+              <img src="https://kamenoi-hotels.com/ako/img/top/firstview/1.jpg" alt="亀の井ホテル赤穂 露天" loading="lazy" decoding="async" />
+              <img src="https://kamenoi-hotels.com/ako/restaurant/lunch/img/thumb/1.jpg" alt="亀の井ホテル赤穂 食事" loading="lazy" decoding="async" />
+              <img src="https://travel1.k-img.com/img_tool/3/1/a/1200x696_31a04c37-fea3-4497-a4bc-29ee3db45bd1.jpg?updated_at=1692240628" alt="亀の井ホテル赤穂" loading="lazy" decoding="async" />
+            </div>
+
+            <p><strong>亀の井ホテル 赤穂</strong></p>
+            <p>
+              瀬戸内海国立公園の赤穂御崎に立つ抜群のロケーション。<br>
+              赤穂の塩や瀬戸内海の冬の味覚「牡蠣」など旬のお料理、瀬戸内の景観と一体化したインフィニティ露天風呂を堪能<br><br>
+              * トリプル／夕食あり／朝食あり／大浴場・露天あり<br>* <strong>38,249円（3人）</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="block">
+          <h3>◆ 5日目｜2/13（金） 赤穂 → 都留市</h3>
+
+          <details open>
+            <summary>🚗 運転（5日目）<span class="sum-right"><span class="kbd">表</span> タップで開閉</span></summary>
+            <div class="details-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th><th>出発→到着（目安）</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>赤穂 → 三木SA</td><td>70km</td><td>1時間00分</td><td>剛</td><td>08:00→09:00</td></tr>
+                    <tr><td>三木SA → 甲南PA</td><td>137km</td><td>1時間50分</td><td>翼</td><td>09:15→11:05</td></tr>
+                    <tr><td>甲南PA → 刈谷HWオアシス</td><td>95km</td><td>1時間10分</td><td>瑞貴</td><td>11:20→12:30</td></tr>
+                    <tr><td>刈谷HWオアシス → 浜松SA</td><td>87km</td><td>1時間05分</td><td>剛</td><td>13:00→14:05</td></tr>
+                    <tr><td>浜松SA → 駿河湾沼津SA</td><td>116km</td><td>1時間20分</td><td>瑞貴</td><td>14:20→15:40</td></tr>
+                    <tr><td>駿河湾沼津SA → 都留市</td><td>70km</td><td>1時間05分</td><td>翼</td><td>16:00→17:05</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="block">
+            <h3>🏨 宿泊（都留）</h3>
+            <p>* <strong>都留：1万円予定（3人）</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ -->
+    <section id="sec-3" class="card">
+      <div class="head">
+        <div>
+          <div class="badge">③ 6・7日目</div>
+          <h2 class="title">太田市 → 都留市で合流 → 山中湖 → ホテル／忍野八海 → 帰宅</h2>
+          <p class="route">2026/2/14（土）〜 2/15（日）</p>
+          <div class="meta">
+            <span>後半合流：真美（51）／恵（9）</span>
+            <span>山中湖：ホテルマウント富士</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="block">
+          <h3>◆ 6日目｜2/14（土） 太田市 → 都留市で合流 → 山中湖 → ホテル</h3>
+
+          <div class="block">
+            <h3>⏰ 観光</h3>
+            <p>
+              * 11:15–12:30｜昼：<strong>キャンティ・コモ 山中湖</strong><br>
+              &nbsp;&nbsp;山中湖畔の人気イタリアン
+            </p>
+
+            <p>
+              * 午後｜山中湖 湖畔（寒ければ車内OK）<br><br>
+              &nbsp;&nbsp;山中湖は富士五湖の中で最も標高が高く、冬は空気が澄み、富士山の稜線が最もくっきり見える湖です。<br>
+              湖畔は平坦で見通しが良く、子ども連れでも安全に散策できます。<br>
+              湖畔は風が強い場合があるため、寒い場合は車内からの鑑賞に切替可能<br>
+              天候が良ければ、湖面に映る逆さ富士が見られることもあります<br><br>
+            </p>
+
+            <div class="imgs">
+              <img src="https://www.mt-fuji.gr.jp/cms_mt-fuji/wp-content/uploads/2014/02/51337618438008410354d6312e42c3781.jpg" alt="山中湖" loading="lazy" decoding="async" />
+              <img src="https://sakasafuji.com/wp-content/uploads/2020/01/l_yamanakako02.jpg" alt="逆さ富士" loading="lazy" decoding="async" />
+            </div>
+
+            <p>
+              * 16:30–16:55｜<strong>夕焼けの渚</strong><br><br>
+              山中湖の西岸に位置する富士山と夕焼けの定番撮影スポットです。<br>
+              天候が合えば、富士山＋夕焼け＋湖面の三点が揃う<br><br>
+            </p>
+
+            <div class="imgs">
+              <img src="https://fujiyamastyle.com/news/assets_c/2020/10/%E7%B4%85%E8%91%89-thumb-707xauto-1646.jpg" alt="夕焼けの渚" loading="lazy" decoding="async" />
+              <img src="https://lake-yamanakako.com/storage/special_feature_paragraphs/618/responsive_images/b3jnhuGMX5N53ZkLWDaac29frCXEBTTgGv7LAMFx__1611_1074.jpeg" alt="夕焼けの渚（湖畔）" loading="lazy" decoding="async" />
+            </div>
+
+            <p>* 17:30｜ホテルCI → 温泉・夕食・休憩</p>
+          </div>
+
+          <details open>
+            <summary>🚗 運転（6日目）<span class="sum-right"><span class="kbd">表</span> タップで開閉</span></summary>
+            <div class="details-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>太田市 → 都留市</td><td>110km</td><td>1時間50分</td><td>真美</td></tr>
+                    <tr><td>都留市 → 山中湖</td><td>30km</td><td>40分</td><td>瑞貴</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="block">
+            <h3>🏨 宿泊</h3>
+            <div class="imgs">
+              <img src="https://www.mtfuji-hotel.com/rooms/_img/img23_01.jpg" alt="ホテルマウント富士" />
+              <img src="https://www.mtfuji-hotel.com/concept/_img/img04.jpg" alt="ホテルマウント富士" />
+              <img src="https://www.mtfuji-hotel.com/restaurants/_img/main_dining/img03_01.jpg" alt="ホテルマウント富士" />
+            </div>
+
+            <p><strong>ホテルマウント富士</strong><br><br>富士山を見るために建てられた「大人のリゾートホテル」<br>
+              眼前に迫る雄大な富士山。そして眼下には、静かに横たわる山中湖。<br>
+              恵まれた抜群のロケーションの中で、心ゆくまで自然を満喫するリゾートでの休日。<br><br>
+              CI <strong>17:30</strong>／CO <strong>10:00</strong><br><br>
+            </p>
+
+            <p>* <strong>ホテルマウント富士：113,796円（5人）</strong></p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="block">
+          <h3>◆ 7日目｜2/15（日） 山中湖 → 忍野八海 → 忍野（昼）→ 都留市 → 帰宅</h3>
+
+          <div class="block">
+            <h3>⏰ 観光</h3>
+            <p>
+              * 10:40–11:40｜<strong>忍野八海</strong><br><br>
+              忍野八海は、富士山の雪解け水が長い年月をかけて濾過され、<br>
+              地表に湧き出した 8つの湧水群 からなる集落で世界遺産「富士山」の 構成資産。<br><br>
+            </p>
+
+            <div class="imgs">
+              <img src="https://www.japan-travel.cn/sports/jnto/image/upload/w_1000%2Ch_667%2Cc_fill%2Cf_auto%2Cfl_lossy%2Cq_auto/v1/media/filer_public/98/1b/981b6295-4597-43ab-a1f8-87e12725ae32/oshino-hakkai-kv_bzvsix" alt="忍野八海" loading="lazy" decoding="async" />
+              <img src="https://tabizine.jp/wp-content/uploads/2018/12/227178-08.jpg" alt="忍野八海（湧水）" loading="lazy" decoding="async" />
+              <img src="https://img.cooljapan-videos.com/r/1000x666/files/article_images/9eb091523e2d4b9281e9469ee98c65da3a6e255e.jpg.webp" alt="忍野八海（集落）" loading="lazy" decoding="async" />
+            </div>
+
+            <p>
+              * 11:45–12:45｜昼：<strong>池本茶屋</strong><br>
+            </p>
+
+            <p>* 13:00–13:30｜忍野 発</p>
+          </div>
+
+          <div class="block">
+            <h3>🚗 運転（7日目）</h3>
+            <p><strong>観光移動（1台）</strong></p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>山中湖 → 忍野</td><td>10km</td><td>20分</td><td>剛</td></tr>
+                  <tr><td>忍野 → 都留市</td><td>25km</td><td>35分</td><td>瑞貴</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p style="margin-top:10px;"><strong>帰路（車2台）</strong></p>
+
+            <p><strong>* 1号車</strong></p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>都留市 → 双葉SA</td><td>52km</td><td>55分</td><td>剛</td></tr>
+                  <tr><td>双葉SA → 熊谷</td><td>58km</td><td>55分</td><td>翼</td></tr>
+                  <tr><td>熊谷 → 太田市</td><td>18km</td><td>25分</td><td>剛</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p style="margin-top:10px;"><strong>* 2号車</strong></p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>区間</th><th>距離</th><th>運転時間</th><th>運転</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>都留市 → 双葉SA</td><td>52km</td><td>55分</td><td>真美</td></tr>
+                  <tr><td>双葉SA → 熊谷</td><td>58km</td><td>55分</td><td>瑞貴</td></tr>
+                  <tr><td>熊谷 → 太田市</td><td>18km</td><td>25分</td><td>真美</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 食事 -->
+    <section id="sec-4" class="card">
+      <div class="head">
+        <div>
+          <div class="badge food">④ 🍽 食事まとめ</div>
+          <h2 class="title">🍽 食事まとめ</h2>
+        </div>
+      </div>
+
+       <div class="body">
+        <div class="block">
+          <h3>◆ 1日目｜名古屋（昼｜食べ歩き）</h3>
+
+          <div class="block">
+            <h3>🏯 金シャチ横丁</h3>
+            <div class="imgs">
+              <img src="https://kinshachi-yokocho.com/wp/wp-content/themes/kinshachi/assets/images/top/area_image_yoshinao-sp.webp" alt="金シャチ横丁" />
+              <img src="https://shop.yabaton.jp/img/item/000249/thumbnail.jpg" alt="矢場とん" />
+              <img src="https://hicbc.com/magazine/assets/images/delalover-column-23092111/16962298706zbcf.jpg" alt="世界の山ちゃん" />
+              <img src="https://kinshachi-yokocho.com/wp/wp-content/uploads/2024/07/%EF%BC%93-620x620.jpg" alt="金シャチ焼き" />
+            </div><br><br>
+
+            <p><strong>🥩 矢場とん｜味噌カツ串</strong><br>
+              * 値段：400〜600円<br>
+              * 創業当時からある”元祖みそかつ”でもある串かつ。上質なロースを秘伝のみそだれと合わせる事により、さっぱりとした後味。
+            </p>
+
+            <p><strong>🍗 世界の山ちゃん｜手羽先</strong><br>
+              * 値段：400〜700円<br>
+              * 手羽先ならここ！辛さと風味際立つ幻のコショウが味の決め手の「幻の手羽先」。
+            </p>
+
+            <p><strong>🍡 金シャチ焼き</strong><br>
+              * 値段：300〜400円<br>
+              * 名古屋城の守り神である金のシャチホコをかたどった名古屋城名物「金シャチ焼」は、丁寧に焼き上げたカステラまんじゅう。            </p>
+          </div>
+
+          <div class="block">
+            <h3>🛍 大須商店街</h3>
+            <div class="imgs">
+              <img src="https://cdn.mainichi.jp/vol1/2021/09/12/20210912ddm010040139000p/9.jpg?2" />
+              <img src="https://tblg.k-img.com/restaurant/images/Rvw/281453/640x640_rect_a3043c022d7f99fd7b37f54f8df0f9e8.jpg" alt="李さんの台湾名物屋台" />
+              <img src="https://tblg.k-img.com/restaurant/images/Rvw/155221/640x640_rect_155221505.jpg" alt="新雀本店" />
+              <img src="https://kelly-net.jp/kelly_cms2021/wp-content/uploads/2023/02/2023012309192511.jpg" alt="大須クレープ" />
+            </div><br><br>
+
+            <p><strong>🍗 李さんの台湾名物屋台｜台湾唐揚げ</strong><br>
+              * 値段：600〜800円<br>
+              * 名古屋で人気の専門店。五香粉（ウーシャンフェン）の風味と、スパイスが効いた独特の味わい
+            </p>
+
+            <p><strong>🍡 新雀本店｜みたらし団子</strong><br>
+              * 値段：100〜120円<br>
+              * 55年受け継いだ、おばあちゃん直伝のしょうゆ味ベースの甘辛みたらし団子、大豆の香りと甘みが特長のきなこ団子。
+            </p>
+
+            <p><strong>🍓 大須クレープ　バターマン</strong><br>
+              * 値段：500〜700円<br>
+              * 若年層に人気。バターにこだわる焼きたてクレープ専門店。
+            </p>
+
+            <p>▶ 合計目安：<strong>2,000〜3,000円／人</strong></p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 1日目｜京都（夜）</h3>
+            <h3 style="margin-top:6px;">豆腐料理とおばんざい まるたけえびす豆八 京都 先斗町</h3>
+            <div class="imgs">
+              <img src="https://www.leafkyoto.net/leaf/wp-content/uploads/2024/07/20240702-mamehachi-03-1024x682.jpg" alt="Mamehachi Honten" />
+              <img src="https://www.leafkyoto.net/leaf/wp-content/uploads/2024/07/20240702-mamehachi-05.jpg" alt="Mamehachi Honten" />
+            </div><br><br>
+            <p>
+              * ホテルから：徒歩6〜7分<br>
+              * 値段：1,500〜2,000円<br>
+              * 京都の風情を感じるお食事を優雅なカウンターや個室で<br>
+              佐々木酒造公式コラボ店舗で愉しむ『聚楽第・まるたけえびす』を堪能<br> 
+
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 2日目｜淡路SA（昼）</h3>
+            <h3 style="margin-top:6px;">淡路サービスエリア（下り）</h3>
+            <div class="imgs">
+              <img src="https://www.jb-highway.co.jp/assets/img_entry/6f810222e941f19932d0d4117b254125a7523d8b.jpg" alt="淡路SA" />
+              <img src="https://www.jb-highway.co.jp/assets/img_entry/topics_2023_0428-02.jpg" alt="淡路SA" />
+              <img src="https://d1uzk9o9cg136f.cloudfront.net/f/16783350/rc/2024/01/09/2790e407df6e0182bc26bbdee0b799360822c813_xlarge.jpg" alt="淡路SA" />
+            </div>
+            <p>
+              * 値段：1,200〜1,500円<br>
+              * 淡路島産の釜揚げしらす丼は、ふっくらと優しい味わいが特徴。<br>* 淡路島玉ねぎ丸ごとカレーは、淡路島産の甘くて柔らかい玉ねぎが丸ごと1個入った、インパクト大のカレー
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 2日目｜高松（夜）</h3>
+            <h3 style="margin-top:6px;">北角（ノースポイント）</h3>
+            <div class="imgs">
+              <img src="https://imgfp.hotp.jp/IMGH/72/97/P031427297/P031427297_480.jpg" alt="北角" />
+              <img src="https://tblg.k-img.com/resize/640x360c/restaurant/images/Rvw/130238/130238168.jpg?api=v2&token=e50b8a8" alt="北角" />
+              <img src="https://rimage.gnst.jp/rest/img/f04ka1e10000/s_0n5e.jpg?t=1717026576" alt="北角" />
+
+            </div>
+            <p>
+              * ホテルから：徒歩2〜3分<br>
+              * 値段：3,500〜5,000円<br>
+              * 座敷を備える和モダンで上品な店内で、地酒を取り揃え、名物の骨付鶏や海鮮なめろうを提供する。
+            </p>
+
+            <p><strong>（代替）</strong></p>
+            <h3 style="margin-top:6px;">骨付鳥 一鶴 高松店</h3>
+            <div class="imgs">
+              <img src="https://stat.ameba.jp/user_images/20250319/10/shiginonishi/b4/89/j/o1210090815556150956.jpg" alt="一鶴" />
+              <img src="https://www.ikkaku.co.jp/js/camera/images/tori-image1.jpg?1766188800023=" alt="一鶴" />
+              <img src="https://cdn-ak.f.st-hatena.com/images/fotolife/t/taberumegane/20200329/20200329060204.jpg" alt="一鶴" />
+            </div>
+            <p>
+              * ホテルから：車7〜10分<br>
+              * 値段：2,500〜4,000円<br>
+              *モダンですっきりとしたシンプルなレストラン。長年愛されているオリジナルスパイスを使った骨付き鶏に合わせてお酒が頂ける。。
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 3日目｜高松（朝）</h3>
+            <h3 style="margin-top:6px;">さか枝うどん 本店</h3>
+            <div class="imgs">
+              <img src="https://www.my-kagawa.jp/image/rendering/attraction_image/10647/keep/1200?v=2f7164c979ab0e3aa06b83131edae4347b754f13" alt="さか枝うどん" />
+              <img src="https://www.okasen.com/shop/recipe/photo/KamaTama.jpg" alt="釜玉うどん" />
+              <img src="https://stat.ameba.jp/user_images/20220726/12/sr5762/4b/e3/j/o0640048015151905692.jpg" alt="さか枝うどん" />
+            </div>
+            <p>
+              * ホテルから：車約10分<br>
+              * 値段：400〜700円<br>
+              * 県庁裏の超人気老舗セルフ店。自分で麺を温め、ダシをかけ、自分でトッピングするセルフの典型スタイルが大人気。
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 3日目｜尾道（夕方）</h3>
+            <h3 style="margin-top:6px;">尾道ラーメン 丸ぼし</h3>
+            <div class="imgs">
+              <img src="https://onomichiramen-maruboshi.jp/wp-content/uploads/2017/08/m01.jpg" alt="丸ぼし" />
+              <img src="https://tblg.k-img.com/resize/640x360c/restaurant/images/Rvw/76044/76044800.jpg?token=b6db962&api=v2" alt="丸ぼし" />
+                          </div>
+            <p>
+              * 値段：800〜1,000円<br>
+              * スープは鯛の干物と小魚で出汁を取り優しく香りのある仕上がり。背脂にもほんのり和出汁が効きあっさりと最後まで熱々。
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 3日目｜福山（夜）</h3>
+            <h3 style="margin-top:6px;">おばんざい酒場 いとい</h3>
+            <div class="imgs">
+              <img src="https://www.obanzai-kimura.com/img/sp_mise_image2_n.jpg" alt="いとい" />
+              <img src="https://www.bm-peekaboo.com/wp3/wp-content/uploads/2020/01/3fa52e27d6c6038237b7a668115b11a5-e1580691042125.jpg" alt="いとい" />
+           
+            </div>
+            <p>
+              * ホテルから：徒歩5〜7分<br>
+              * 値段：1,000〜1,500円<br>
+              * 理由：ラーメン後でも重くならない小鉢・定食中心。
+            </p>
+
+            
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 4日目｜朝（福山）</h3>
+            <h3 style="margin-top:6px;">ホテル1-2-3 福山｜朝食</h3>
+            <div class="imgs">
+              <img src="https://www.hotel123.co.jp/hotelgroupwp//wp-content/themes/original/dist/assets/img/page/fukuyama/restaurant/restaurant-02.webp" alt="朝食" />
+      
+            </div>
+            <p>
+              * 値段：宿泊費に含む<br>
+              * 人気の朝カレーや和洋食の日替わりおかずをバイキング形式の食べ放題。
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 4日目｜倉敷（昼）</h3>
+            <h3 style="margin-top:6px;">くらしき川舟流し周辺 食事処</h3>
+            <div class="imgs">
+              <img src="https://blog-static.kkday.com/ja/blog/wp-content/uploads/pixta_63795828_M-1.jpg" alt="倉敷" />
+              <img src="https://media.kuratoco.com/wp-content/uploads/2020/03/23045020/lunch7.jpg" />
+              <img src="https://tokumori.tv.kct.jp/wp-content/uploads/2024/10/2655776a7eaeb7cfdc724fdbaf069241.jpg" alt="倉敷" />
+            </div>
+            <p>
+              * 値段：800〜1,200円<br>
+              * 小丼・豆腐・小鉢中心で提供が早い。
+            </p>
+          </div>
+
+   <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 5日目｜帰路（昼）</h3>
+            <h3 style="margin-top:6px;">浜名湖サービスエリア</h3>
+            <div class="imgs">
+              <img src="https://stat.ameba.jp/user_images/20141205/20/ryusuke-tsuchiya/73/95/j/o0595039613150234671.jpg" alt="浜名湖SA" />
+              <img src="https://skyticket.jp/guide/wp-content/uploads/pixta_44234691_M-1200x675.jpg" alt="浜名湖産のあおさうどん" />
+             <img src="https://tblg.k-img.com/restaurant/images/Rvw/330848/640x640_rect_a249d23c7ca4a9bdd84b4537dc86808c.jpg" alt="浜名湖産のあおさうどん" />
+
+
+            </div>
+            <p>
+              * 値段：1,200〜1,800円<br>
+              * 人気のメニューは、「浜名湖産のあおさうどん(そば)」。香り高い浜名湖産のあおさと特製つゆの相性が良く、一度食べたらやみつきになるおいしさです。<br>
+「桜えびご飯」や「うなぎしぐれ煮ごはん」も人気。
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 6日目｜山中湖（昼）</h3>
+            <h3 style="margin-top:6px;">キャンティ・コモ 山中湖</h3>
+            <div class="imgs">
+               <img src="https://www.porta-y.jp/wp-content/uploads/2017/02/cid_7376A307-DC74-4689-B759-F1A85F27B0A8.jpg" alt="キャンティ・コモ 山中湖" />
+              <img src="https://www.yyjam.com/wp-content/themes/outhouse/como/images/como_dinner_img.jpg" alt="キャンティ・コモ 山中湖" />
+
+            </div>
+            <p>
+              <br>
+              *地元食材を盛り込んだ本格的なピザ・パスタを堪能でき、全席から山中湖を眺望できます。オリジナルドレッシングはテレビに紹介されるほど大人気！
+            </p>
+          </div>
+
+
+
+
+
+
+ <div class="divider"></div>
+
+          <div class="block">
+            <h3>◆ 7日目｜忍野（昼）</h3>
+            <h3 style="margin-top:6px;">池本茶屋</h3>
+            <div class="imgs">
+             <img src="https://tblg.k-img.com/restaurant/images/Rvw/252983/640x640_rect_e09795d56aceddbfb31e81b42ba33b69.jpg" alt="池本茶屋" />
+              <img src="https://og-image.retty.me/restaurant/100000870817/" alt="池本茶屋" />
+            </div>
+            <p>
+              * 値段：1,200〜1,800円<br>
+              * ほうとう・定食中心で身体が温まり、安定した量と満足感。
+            </p>
+          </div>
+
+
+
+
+
+
+
+              </div>
+    </section>
+
+
+       <!-- ⑤ 費用＋運転 -->
+    <section id="sec-5" class="card">
+      <div class="head">
+        <div>
+          <div class="badge money">⑤ 💰 資金詳細＋運転合計</div>
+          <h2 class="title">費用詳細／個人別 運転合計</h2>
+        
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="block">
+          <h3>💰 費用詳細</h3>
+
+          <div class="block">
+            <h3>■ 宿泊費</h3>
+            <p>
+              * 京都：9,822円<br>
+              * 高松：12,354円<br>
+              * 福山：13,200円<br>
+              * 赤穂：38,249円<br>
+              * 都留：10,000円（予定）<br>
+              * 山中湖：113,796円
+            </p>
+            <p><strong>宿泊計：197,421円</strong></p>
+          </div>
+
+          <div class="block">
+            <h3>■ 高速代（太田市からの合流分除外）</h3>
+            <p><strong>31,000円</strong></p>
+          </div>
+
+          <div class="block">
+            <h3>■ ガソリン代（太田市からの合流分除外）</h3>
+            <p>
+              * 全運転距離合計（個人合計の総和）：<strong>2,214km</strong><br>
+              * 除外（太田市→都留市 110km）：<strong>2,104km</strong><br>
+              * 燃費：28km/L → <strong>約75.1L</strong><br>
+              * 単価：170円/L → <strong>約12,800円</strong>
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>■ 総計（入場料除外）</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>項目</th><th>金額</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>宿泊</td><td>197,421円</td></tr>
+                  <tr><td>高速</td><td>31,000円</td></tr>
+                  <tr><td>ガソリン</td><td>12,800円</td></tr>
+                  <tr><td><strong>総計</strong></td><td><strong>241,121円</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="block">
+          <h3>🚗 個人別 運転合計</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>人</th><th>総距離</th><th>総運転時間</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>剛</td><td>約675km</td><td>約10時間35分</td></tr>
+                <tr><td>瑞貴</td><td>約801km</td><td>約12時間55分</td></tr>
+                <tr><td>翼</td><td>約518km</td><td>約8時間10分</td></tr>
+                <tr><td>真美</td><td>約220km</td><td>約3時間35分</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <p class="foot">© Family Trip Planner UI（オフラインHTML）／上部ナビで各セクションへジャンプできます</p>
+  </div>
+
+  <script>
+    // Smooth scroll + active nav highlight
+    const navLinks = [...document.querySelectorAll('.nav a')];
+    navLinks.forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(!href || !href.startsWith('#')) return;
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({behavior:'smooth', block:'start'});
+        history.replaceState(null, "", href);
+      });
+    });
+
+    const sections = ['sec-1','sec-2','sec-3','sec-4','sec-5'].map(id=>document.getElementById(id));
+    const observer = new IntersectionObserver((entries)=>{
+      const visible = entries
+        .filter(en=>en.isIntersecting)
+        .sort((a,b)=>b.intersectionRatio - a.intersectionRatio)[0];
+      if(!visible) return;
+      const id = visible.target.id;
+      navLinks.forEach(a=>{
+        const isMatch = a.dataset.target === id;
+        a.classList.toggle('active', isMatch);
+      });
+    }, {root:null, threshold:[0.22, 0.35, 0.5, 0.65]});
+
+    sections.forEach(s=>s && observer.observe(s));
+
+    // If loaded with hash, scroll nicely
+    window.addEventListener('load', ()=>{
+      const hash = location.hash;
+      if(hash && document.querySelector(hash)){
+        setTimeout(()=>document.querySelector(hash).scrollIntoView({behavior:'smooth', block:'start'}), 120);
+      }
+    });
+  </script>
+</body>
+</html>
