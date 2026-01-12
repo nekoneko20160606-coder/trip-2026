@@ -287,18 +287,88 @@
           return w.nextNode();
         }
 
-        while(cur){
-          // 次のDAY見出しに当たったら終了（ただしstartEl自身は含める）
-          if(cur !== startEl){
-            const txt = (cur.textContent || '');
-            const m = txt.match(DAY_HEADING_RE);
-            if(m){
-              break;
-            }
-          }
-          extracted.push(cur.cloneNode(true));
-          cur = nextElement(cur);
-        }
+        async function loadDay(day){
+  setStatus(day);
+  fillDaySelect(day);
+
+  const content = document.getElementById('content');
+  const subline = document.getElementById('subline');
+  content.innerHTML = '';
+  subline.textContent = '本編ページから、該当日のセクションを抜き出しています。';
+
+  try{
+    const res = await fetch('./', { cache: 'no-store' });
+    if(!res.ok) throw new Error(`fetch failed: ${res.status}`);
+    const html = await res.text();
+
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    const DAY_HEADING_RE = /◆\s*(\d+)\s*日目｜/;
+
+    const headings = Array.from(doc.querySelectorAll('h1,h2,h3,h4,h5,h6'));
+    const dayHeads = headings
+      .map(h => ({ el: h, m: (h.textContent || '').match(DAY_HEADING_RE) }))
+      .filter(x => x.m)
+      .map(x => ({ el: x.el, day: Number(x.m[1]) }))
+      .filter(x => x.day >= 1 && x.day <= TRIP_DAYS);
+
+    const target = dayHeads.find(x => x.day === day);
+
+    if(!target){
+      content.innerHTML = `
+        <div class="error">
+          本編に「◆ ${day}日目｜…」の見出しが見つかりませんでした。<br>
+          本編リンク：<a href="./" target="_blank" rel="noopener">/（トップ）</a>
+        </div>
+      `;
+      return;
+    }
+
+    const startEl = target.el;
+
+    // ★重要：親子を全部拾うのではなく、同じ階層（兄弟要素）だけ拾う
+    // 多くの構造で「日別見出しは同じ親の子要素として並んでいる」前提
+    const parent = startEl.parentElement;
+    if(!parent) throw new Error('start heading has no parent');
+
+    // parent.children の中で startEl の位置を見つける
+    const siblings = Array.from(parent.children);
+    const startIdx = siblings.indexOf(startEl);
+    if(startIdx < 0) throw new Error('failed to locate start heading among siblings');
+
+    const extracted = [];
+    for(let i = startIdx; i < siblings.length; i++){
+      const el = siblings[i];
+
+      // startEl以外で次のDAY見出しが来たら止める
+      if(el !== startEl){
+        const m = (el.textContent || '').match(DAY_HEADING_RE);
+        if(m) break;
+      }
+      extracted.push(el.cloneNode(true));
+    }
+
+    // 表示
+    extracted.forEach(n => content.appendChild(n));
+
+    // タイトルを本編見出しから作る
+    const htxt = (startEl.textContent || '').trim();
+    document.getElementById('headline').textContent = htxt.replace(/^◆\s*/,'');
+    document.getElementById('badge').textContent = `DAY ${day} / ${TRIP_DAYS}`;
+
+    subline.innerHTML = `詳細は本編：<a href="./" target="_blank" rel="noopener">/（トップ）</a>`;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  }catch(e){
+    document.getElementById('content').innerHTML = `
+      <div class="error">
+        読み込みに失敗しました：${String(e.message || e)}<br>
+        本編（/）が同じ階層にあるか確認してください。
+      </div>
+    `;
+  }
+}
 
         // 表示
         extracted.forEach(n => content.appendChild(n));
