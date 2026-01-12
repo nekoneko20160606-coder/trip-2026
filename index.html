@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>家族旅行しおり｜2026.2.9–2.15（Web版）</title>
+
   <style>
     :root{
       --bg:#0b1020;
@@ -13,11 +14,7 @@
       --text:#e7eefc;
       --muted:#b7c3df;
       --line:rgba(231,238,252,.12);
-      --accent:#66a3ff;   /* day */
-      --food:#ffb86b;     /* food */
-      --money:#c8d2ea;    /* money */
-      --ok:#7CFFB2;
-      --warn:#ff6b6b;
+      --accent:#66a3ff;
       --shadow: 0 12px 28px rgba(0,0,0,.35);
       --radius: 18px;
     }
@@ -26,69 +23,40 @@
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", Arial, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
       background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(102,163,255,.18), transparent 55%),
+        radial-gradient(1200px 800px at 20% 10%, rgba(102,163,255,.16), transparent 55%),
         radial-gradient(900px 700px at 85% 20%, rgba(255,184,107,.10), transparent 60%),
         radial-gradient(1000px 800px at 60% 90%, rgba(124,255,178,.08), transparent 60%),
         var(--bg);
       color:var(--text);
-      line-height:1.6;
+      line-height:1.75;
     }
 
     a{color:inherit}
-    .wrap{max-width:1040px;margin:0 auto;padding:24px 16px 56px}
+    .wrap{max-width:980px;margin:0 auto;padding:26px 16px 78px}
+
+    /* HERO */
     .hero{
-      background: linear-gradient(135deg, rgba(102,163,255,.22), rgba(17,28,53,.95));
       border:1px solid var(--line);
       border-radius: 26px;
-      padding: 22px 18px;
+      padding: 20px 18px;
       box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
+      background: linear-gradient(135deg, rgba(102,163,255,.18), rgba(17,28,53,.92));
     }
-    .hero::before{
-      content:"";
-      position:absolute; inset:-60px -60px auto auto;
-      width:280px;height:280px;border-radius:50%;
-      background:radial-gradient(circle, rgba(255,184,107,.35), transparent 65%);
-      filter: blur(2px);
-    }
-    .hero h1{
-      margin:0 0 8px;
-      font-size: 22px;
-      letter-spacing:.02em;
-    }
-    .hero .sub{
-      margin:0 0 10px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .chip{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(15,23,42,.55);
-      color: var(--muted);
-    }
-    .chip strong{color:var(--text);font-weight:700}
-    .topimg{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
+    .hero h1{margin:0 0 6px; font-size:22px; letter-spacing:.02em}
+    .hero .sub{margin:0 0 12px; color:var(--muted); font-size:14px}
+    .topimg{margin-top:12px}
     .topimg img{
       width:100%;
       height:auto;
       border-radius: 18px;
       border:1px solid var(--line);
-      background: rgba(0,0,0,.25);
+      background: rgba(0,0,0,.22);
+      display:block;
     }
 
-    /* Sticky nav */
+    /* NAV */
     .nav{
       position: sticky;
       top: 10px;
@@ -103,9 +71,9 @@
       display:flex;
       gap:8px;
       flex-wrap:wrap;
-      justify-content:flex-start;
+      align-items:center;
     }
-    .nav a{
+    .nav a, .nav button{
       text-decoration:none;
       padding: 8px 10px;
       border-radius: 12px;
@@ -116,27 +84,22 @@
       display:inline-flex;
       align-items:center;
       gap:8px;
-      transition: transform .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+      cursor:pointer;
     }
-    .nav a:hover{transform: translateY(-1px); background: rgba(17,28,53,.70); color: var(--text)}
+    .nav a:hover, .nav button:hover{
+      background: rgba(17,28,53,.70);
+      color: var(--text);
+    }
     .nav a.active{
       color: var(--text);
       border-color: rgba(102,163,255,.55);
       background: rgba(102,163,255,.18);
     }
-    .nav a.food.active{
-      border-color: rgba(255,184,107,.65);
-      background: rgba(255,184,107,.14);
-    }
-    .nav a.money.active{
-      border-color: rgba(200,210,234,.70);
-      background: rgba(200,210,234,.12);
-    }
 
     /* Cards */
     section{scroll-margin-top: 88px;}
     .card{
-      margin: 14px 0 18px;
+      margin: 14px 0 20px;
       border-radius: var(--radius);
       border:1px solid var(--line);
       background: linear-gradient(180deg, rgba(17,28,53,.82), rgba(15,26,50,.82));
@@ -147,120 +110,63 @@
       padding: 16px 16px 12px;
       border-bottom:1px solid var(--line);
       display:flex;
-      gap:12px;
-      align-items:flex-start;
       justify-content:space-between;
+      gap:12px;
       flex-wrap:wrap;
     }
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(102,163,255,.45);
-      background: rgba(102,163,255,.12);
-      color: var(--text);
-      white-space:nowrap;
-    }
-    .badge.food{border-color: rgba(255,184,107,.55); background: rgba(255,184,107,.12);}
-    .badge.money{border-color: rgba(200,210,234,.65); background: rgba(200,210,234,.10);}
-    .title{
-      margin:0;
-      font-size:18px;
-      line-height:1.35;
-    }
-    .route{
-      margin:6px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .meta{
-      display:flex;gap:8px;flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .meta span{
-      font-size:12px;
-      color: var(--muted);
-      border:1px solid var(--line);
-      padding:5px 9px;
-      border-radius: 999px;
-      background: rgba(11,16,32,.28);
-    }
-    .body{padding: 14px 16px 18px;}
+    .title{margin:0; font-size:18px; line-height:1.4}
+    .route{margin:6px 0 0; color:var(--muted); font-size:13px}
+    .body{padding: 14px 16px 20px}
+
     .block{
       margin: 14px 0 0;
-      padding: 12px 12px;
+      padding: 14px 14px;
       border-radius: 14px;
       border:1px solid rgba(231,238,252,.12);
-      background: rgba(0,0,0,.18);
+      background: rgba(0,0,0,.16);
     }
-    .block h3{
-      margin:0 0 8px;
-      font-size:14px;
-      color: var(--text);
-      letter-spacing:.02em;
-    }
-    .block p{margin:0 0 8px;color:var(--muted);font-size:13px}
+    .block h3{margin:0 0 10px; font-size:14px}
+    .block p{margin:0 0 10px; color:var(--muted); font-size:14px}
     .block p:last-child{margin-bottom:0}
 
-    /* Images */
+    .divider{height:1px;background:var(--line);margin:18px 0}
+
+    /* Images + Table */
     .imgs{
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
-      margin: 10px 0 0;
+      margin-top: 10px;
     }
     @media (min-width:720px){
-      .topimg{grid-template-columns: 1.4fr .6fr;}
       .imgs{grid-template-columns: repeat(2, 1fr);}
-    }
-    @media (min-width:980px){
-      .imgs{grid-template-columns: repeat(3, 1fr);}
     }
     .imgs img{
       width:100%;
       height:auto;
       border-radius: 14px;
       border: 1px solid var(--line);
-      background: rgba(0,0,0,.25);
+      background: rgba(0,0,0,.22);
+      display:block;
     }
 
-    /* Tables */
     .table-wrap{
       overflow:auto;
       border-radius:14px;
       border:1px solid rgba(231,238,252,.12);
-      background: rgba(0,0,0,.18);
+      background: rgba(0,0,0,.16);
       margin-top:10px;
     }
-    table{
-      width:100%;
-      border-collapse: collapse;
-      min-width: 720px;
-      font-size: 13px;
-    }
-    th, td{
-      border-bottom: 1px solid rgba(231,238,252,.10);
-      padding: 10px 10px;
-      vertical-align: top;
-    }
-    th{
-      position: sticky;
-      top: 0;
-      background: rgba(15,26,50,.92);
-      text-align:left;
-      color: var(--text);
-      font-weight: 700;
-      z-index: 1;
-    }
+    table{width:100%; border-collapse:collapse; min-width: 720px; font-size: 13px;}
+    th, td{border-bottom: 1px solid rgba(231,238,252,.10); padding: 10px 10px; vertical-align: top;}
+    th{background: rgba(15,26,50,.92); text-align:left; color: var(--text); font-weight: 700; position: sticky; top:0;}
     td{color: var(--muted);}
     td strong{color: var(--text);}
 
-    /* Accordion */
     details{
       border-radius: 14px;
       border:1px solid rgba(231,238,252,.12);
-      background: rgba(0,0,0,.16);
+      background: rgba(0,0,0,.14);
       margin-top:10px;
       overflow:hidden;
     }
@@ -278,540 +184,57 @@
       user-select:none;
     }
     summary::-webkit-details-marker{display:none;}
-    .sum-right{display:inline-flex;gap:8px;align-items:center;color:var(--muted);font-weight:600}
-    .kbd{
-      font-size: 11px;
-      padding: 3px 7px;
-      border-radius: 8px;
-      border:1px solid rgba(231,238,252,.16);
-      background: rgba(15,26,50,.55);
-      color: var(--muted);
-    }
     .details-body{padding: 0 12px 12px;}
-    .divider{height:1px;background:var(--line);margin:12px 0}
 
-    /* Footer */
-    .foot{
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align:center;
-      opacity:.9;
-    }
+    .foot{margin-top: 22px; color: var(--muted); font-size: 12px; text-align:center; opacity:.9;}
 
-    /* ===============================
-       Relax Layout (6日目くらいのゆったり)
-       ※HTMLは触らず、見た目だけを全体に適用
-    ================================ */
+    /* ===== 詳細トグル ===== */
+    body:not(.showDetails) .detail-only{ display:none !important; } /* 長文説明・費用詳細 */
+    body:not(.showDetails) .imgs{ display:none !important; }        /* 写真は詳細ONで */
 
-    body{
-      line-height: 1.9;
-      letter-spacing: .01em;
-    }
-    .hero .sub{ line-height: 1.7; }
-
-    .wrap{
-      max-width: 980px;
-      padding: 30px 16px 78px;
-    }
-
-    .card{
-      margin: 18px 0 26px;
-    }
-
-    .card .head{
-      padding: 18px 18px 14px;
-      gap: 14px;
-    }
-
-    .body{
-      padding: 18px 18px 24px;
-    }
-
-    .block{
-      margin: 18px 0 0;
-      padding: 16px 16px;
-      border-radius: 16px;
-      background: rgba(0,0,0,.16);
-    }
-
-    .title{ font-size: 19px; line-height: 1.4; }
-    .route{ font-size: 14px; }
-
-    .block h3{
-      font-size: 15px;
-      margin: 0 0 10px;
-    }
-    .block p{
-      font-size: 14px;
-      line-height: 1.95;
-      margin: 0 0 10px;
-    }
-    .block p:last-child{ margin-bottom: 0; }
-
-    .divider{
-      margin: 18px 0;
-      opacity: .85;
-    }
-
-    .imgs{
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    @media (min-width:720px){
-      .imgs{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (min-width:980px){
-      .imgs{ grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .imgs img, .topimg img{
-      border-radius: 16px;
-    }
-
-    details{
-      margin-top: 12px;
-    }
-    summary{
-      padding: 12px 14px;
-      font-size: 14px;
-    }
-    .details-body{
-      padding: 0 14px 14px;
-    }
-
-    table{ font-size: 14px; }
-    th, td{ padding: 12px 12px; }
-
-    .body .block{
-      max-width: 860px;
-    }
-
-    .body .block .imgs,
-    .body .block .table-wrap{
-      max-width: none;
-    }
-
-    @media (max-width: 520px){
-      .block p{
-        font-size: 15px;
-        line-height: 2.0;
+    /* ===== スマホ：詳細ボタン固定（右下） ===== */
+    @media (max-width: 768px){
+      #toggleDetails{
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        z-index: 9999;
+        padding: 12px 14px;
+        border-radius: 999px;
+        box-shadow: 0 14px 30px rgba(0,0,0,.45);
       }
-      .block{
-        padding: 18px 16px;
+      @supports (padding: max(0px)){
+        #toggleDetails{
+          bottom: max(14px, env(safe-area-inset-bottom));
+          right:  max(14px, env(safe-area-inset-right));
+        }
       }
     }
-
-    .hero{
-      margin-bottom: 22px;
-    }
-  
-
-
-/* ===============================
-   Luxury polish (見た目だけ上質化)
-   ④⑤にも効く：全体の質感・影・文字・境界・画像・表を格上げ
-   ※HTML本文は触らない前提
-=============================== */
-
-:root{
-  /* “金”はやり過ぎない：淡いシャンパンゴールド */
-  --lux-gold: rgba(231, 201, 120, .85);
-  --lux-gold-soft: rgba(231, 201, 120, .18);
-  --lux-ink: rgba(231,238,252,.92);
-  --lux-muted: rgba(183,195,223,.88);
-  --lux-line: rgba(231,238,252,.10);
-  --lux-line2: rgba(231,238,252,.16);
-  --lux-shadow: 0 18px 42px rgba(0,0,0,.42);
-  --lux-shadow2: 0 10px 24px rgba(0,0,0,.28);
-}
-
-/* 全体の“紙質感”＋読みやすさ */
-body{
-  color: var(--lux-ink);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  background:
-    radial-gradient(1200px 800px at 20% 10%, rgba(102,163,255,.14), transparent 58%),
-    radial-gradient(900px 700px at 85% 20%, rgba(255,184,107,.08), transparent 62%),
-    radial-gradient(1000px 800px at 60% 90%, rgba(124,255,178,.06), transparent 62%),
-    linear-gradient(180deg, rgba(10,16,32,1), rgba(8,12,22,1));
-}
-
-/* HEROを“表紙っぽく” */
-.hero{
-  border-radius: 28px;
-  border: 1px solid rgba(231,238,252,.14);
-  box-shadow: var(--lux-shadow);
-  background:
-    radial-gradient(700px 280px at 15% 0%, rgba(231,201,120,.14), transparent 60%),
-    linear-gradient(135deg, rgba(102,163,255,.18), rgba(17,28,53,.92));
-}
-.hero h1{
-  font-size: 23px;
-  letter-spacing: .03em;
-}
-.hero .sub{
-  color: var(--lux-muted);
-}
-.chip{
-  border: 1px solid rgba(231,238,252,.14);
-  background: rgba(15,23,42,.50);
-}
-
-/* Sticky nav：ガラス感＋“上品な縁” */
-.nav{
-  border: 1px solid rgba(231,238,252,.14);
-  background: rgba(10,16,32,.64);
-  backdrop-filter: blur(14px);
-  box-shadow: var(--lux-shadow2);
-}
-.nav a{
-  border: 1px solid rgba(231,238,252,.12);
-  background: rgba(17,28,53,.42);
-}
-.nav a.active{
-  border-color: rgba(231,201,120,.55);
-  background: rgba(231,201,120,.12);
-}
-.nav a.food.active{
-  border-color: rgba(231,201,120,.70);
-  background: rgba(231,201,120,.12);
-}
-.nav a.money.active{
-  border-color: rgba(231,201,120,.55);
-  background: rgba(231,201,120,.10);
-}
-
-/* カード：厚みのある“レザー/紙”っぽい陰影 */
-.card{
-  border-radius: 20px;
-  border: 1px solid rgba(231,238,252,.12);
-  box-shadow: var(--lux-shadow);
-  background:
-    radial-gradient(900px 220px at 18% 0%, rgba(231,201,120,.10), transparent 65%),
-    linear-gradient(180deg, rgba(17,28,53,.84), rgba(15,26,50,.84));
-  position: relative;
-}
-.card::before{
-  content:"";
-  position:absolute; inset:0;
-  border-radius: 20px;
-  pointer-events:none;
-  /* 上辺に“薄いハイライト”を入れて高級感 */
-  background: linear-gradient(180deg, rgba(231,238,252,.07), transparent 28%);
-  mix-blend-mode: screen;
-  opacity: .85;
-}
-.card .head{
-  border-bottom: 1px solid rgba(231,238,252,.10);
-}
-.title{
-  letter-spacing: .02em;
-  font-weight: 780;
-}
-.route{
-  color: var(--lux-muted);
-}
-
-/* バッジ：金縁で上品に */
-.badge{
-  border: 1px solid rgba(231,201,120,.48);
-  background: rgba(231,201,120,.10);
-}
-.badge.food,
-.badge.money{
-  border-color: rgba(231,201,120,.52);
-  background: rgba(231,201,120,.09);
-}
-
-/* ブロック：余白＋境界の繊細さを強化（④⑤の文章が映える） */
-.block{
-  border: 1px solid rgba(231,238,252,.11);
-  background: rgba(0,0,0,.14);
-}
-.block h3{
-  letter-spacing: .03em;
-}
-.block p{
-  color: var(--lux-muted);
-}
-.block p strong{
-  color: var(--lux-ink);
-}
-
-/* Divider：金の“髪の毛ライン”風 */
-.divider{
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(231,201,120,.55),
-    rgba(231,238,252,.10),
-    rgba(231,201,120,.30),
-    transparent
-  );
-  opacity: .95;
-}
-
-/* 画像：トーンを整えて“写真集”っぽく */
-.imgs img,
-.topimg img{
-  border: 1px solid rgba(231,238,252,.12);
-  box-shadow: 0 10px 22px rgba(0,0,0,.28);
-  filter: saturate(1.06) contrast(1.02) brightness(1.02);
-  background: rgba(0,0,0,.20);
-}
-
-/* details：折りたたみの品 */
-details{
-  border: 1px solid rgba(231,238,252,.11);
-  background: rgba(0,0,0,.14);
-}
-summary{
-  border-bottom: 1px solid rgba(231,238,252,.10);
-}
-.kbd{
-  border: 1px solid rgba(231,201,120,.26);
-  background: rgba(231,201,120,.10);
-}
-
-/* 表：高級ホテルの案内表っぽく（読みやすさ＋格） */
-.table-wrap{
-  border: 1px solid rgba(231,238,252,.11);
-  background: rgba(0,0,0,.14);
-}
-table{
-  border-collapse: separate;
-  border-spacing: 0;
-}
-th{
-  background: rgba(15,26,50,.90);
-  border-bottom: 1px solid rgba(231,238,252,.10);
-}
-td{
-  color: var(--lux-muted);
-}
-tbody tr:nth-child(odd) td{
-  background: rgba(255,255,255,.02);
-}
-tbody tr:hover td{
-  background: rgba(231,201,120,.06);
-}
-
-/* フッターも“締まる” */
-.foot{
-  color: rgba(183,195,223,.80);
-}
-
-/* モバイルでの可読性を少し上げる（高級＝読みやすい） */
-@media (max-width: 520px){
-  .title{ font-size: 19px; }
-  .route{ font-size: 14px; }
-  .block p{ font-size: 15px; }
-}
-
-/* =====================================
-   FINAL LUXURY FINISH
-   1) 見出しの箔押し感
-   2) 余白の雑誌化
-   3) 画像トーン統一
-   ※HTMLは触らない
-===================================== */
-
-/* --- 1) 見出し：箔押しゴールド下線 --- */
-.title,
-.block h3{
-  position: relative;
-}
-
-.title::after{
-  content:"";
-  display:block;
-  width: 48px;
-  height: 2px;
-  margin-top: 8px;
-  background: linear-gradient(
-    90deg,
-    rgba(231,201,120,.9),
-    rgba(231,201,120,.35),
-    rgba(231,201,120,.9)
-  );
-  border-radius: 2px;
-}
-
-.block h3::after{
-  content:"";
-  display:block;
-  width: 28px;
-  height: 1.5px;
-  margin-top: 6px;
-  background: linear-gradient(
-    90deg,
-    rgba(231,201,120,.8),
-    rgba(231,201,120,.25),
-    rgba(231,201,120,.8)
-  );
-  border-radius: 2px;
-}
-
-/* 食事まとめ内の店名(h3連続)は控えめに */
-#sec-4 .block h3::after{
-  opacity: .7;
-  width: 22px;
-}
-
-/* --- 2) 余白：雑誌レイアウト --- */
-.body{
-  padding-left: 22px;
-  padding-right: 22px;
-}
-
-.block{
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-@media (min-width: 980px){
-  .body{
-    padding-left: 28px;
-    padding-right: 28px;
-  }
-  .block{
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-
-/* --- 3) 画像：トーンを統一（上品・写真集風） --- */
-.imgs img,
-.topimg img{
-  filter:
-    saturate(1.02)
-    contrast(1.03)
-    brightness(1.02);
-}
-
-/* hoverは“わずか”に（主張しすぎない） */
-.imgs img:hover,
-.topimg img:hover{
-  transform: translateY(-1px);
-  transition: transform .18s ease, filter .18s ease;
-}
-
-/* --- 微調整：文章ブロックの安定感 --- */
-.block p{
-  max-width: 60ch;
-}
-
-/* 表や画像ブロックは制限解除 */
-.block .imgs,
-.block .table-wrap{
-  max-width: none;
-}
-
-
-/* ===== 詳細トグル（本編） ===== */
-.detailsBtn{
-  background: rgba(17,28,53,.9);
-  color: #e7eefc;
-  border: 1px solid rgba(231,238,252,.12);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* 詳細OFFのとき：写真と費用詳細を隠す */
-body:not(.showDetails) .detail-only{
-  display:none !important;
-}
-
-/* 詳細OFFのとき：ヒーロー以外の画像は隠す */
-body:not(.showDetails) img:not(.hero){
-  display:none !important;
-}
-
-/* ヒーロー画像は常時表示 */
-img.hero{
-  display:block !important;
-  max-width: 100%;
-  height: auto;
-  border-radius: 14px;
-  border: 1px solid rgba(231,238,252,.12);
-}
-/* ===== スマホ：詳細ボタンを固定表示（右下） ===== */
-@media (max-width: 768px){
-  #toggleDetails.detailsBtn{
-    position: fixed;
-    right: 14px;
-    bottom: 14px;
-    z-index: 9999;
-
-    /* 押しやすさ */
-    padding: 12px 14px;
-    border-radius: 999px;
-
-    /* 画面上でも目立つ */
-    box-shadow: 0 14px 30px rgba(0,0,0,.45);
-  }
-
-  /* iPhoneの下のバーに被りにくくする保険 */
-  @supports (padding: max(0px)){
-    #toggleDetails.detailsBtn{
-      bottom: max(14px, env(safe-area-inset-bottom));
-      right:  max(14px, env(safe-area-inset-right));
-    }
-  }
-}
-@media (max-width: 768px){
-  .topbar #toggleDetails{ display:none; } /* 上のボタンを隠す */
-}
-/* ===== 詳細OFFでは「説明文(p)」と「写真(.imgs)」を隠す ===== */
-body:not(.showDetails) .day p{
-  display:none !important;
-}
-body:not(.showDetails) .day .imgs{
-  display:none !important;
-}
-
-/* もし .day というクラスが無い場合の保険（強め） */
-body:not(.showDetails) p{
-  display:none !important;
-}
-body:not(.showDetails) .imgs{
-  display:none !important;
-}
-
-
-
-</style>
+  </style>
 </head>
 
 <body>
   <div class="wrap">
-    <!-- HERO -->
+
     <header class="hero" id="top">
       <h1>📘 家族旅行しおり｜2026.2.9（月）– 2.15（日）</h1>
       <p class="sub">京都 → 高松 → 尾道 → 福山 → 倉敷 → 姫路 → 赤穂 → 都留 → 山中湖 → 忍野</p>
-      
+
+      <!-- ★常時表示する“表紙写真”はこれ1枚だけ -->
       <div class="topimg">
-        <img　class="hero" src="https://traveldiary.kimamanalife.jp/wp-content/uploads/2022/03/IMG_0067-1024x768.jpg" alt="山中湖" decoding="async" />
-        <img src="https://www.mtfuji-hotel.com/spa/_img/onsen/img01.jpg" alt="ホテルマウント富士 温泉" decoding="async" />
+        <img src="https://traveldiary.kimamanalife.jp/wp-content/uploads/2022/03/IMG_0067-1024x768.jpg" alt="山中湖" decoding="async" />
       </div>
     </header>
 
-    <!-- STICKY NAV -->
     <nav class="nav" aria-label="セクション">
       <a href="#sec-1" data-target="sec-1">① 1・2日目</a>
       <a href="#sec-2" data-target="sec-2">② 3・4・5日目</a>
       <a href="#sec-3" data-target="sec-3">③ 6・7日目</a>
-      <a class="food" href="#sec-4" data-target="sec-4">④ 🍽 食事まとめ</a>
-      <a class="money" href="#sec-5" data-target="sec-5">⑤ 💰 資金＋運転</a>
+      <a href="#sec-4" data-target="sec-4">④ 🍽 食事まとめ</a>
+      <a href="#sec-5" data-target="sec-5">⑤ 💰 資金＋運転</a>
+      <a href="./today.html">今日だけ見る</a>
+      <button id="toggleDetails" type="button">詳細：OFF</button>
     </nav>
-<a href="./today.html">今日だけ見る</a>
-<button id="toggleDetails" type="button" class="detailsBtn">詳細：OFF</button>
-    <!-- ① -->
     <section id="sec-1" class="card">
       <div class="head">
         <div>
@@ -1717,12 +1140,13 @@ body:not(.showDetails) .imgs{
       </div>
     </section>
 
-    <p class="foot">© Family Trip Planner UI（オフラインHTML）／上部ナビで各セクションへジャンプできます</p>
+    <p class="foot">© Family Trip Planner UI（オフラインHTML）</p>
   </div>
 
   <script>
-    // Smooth scroll + active nav highlight
-    const navLinks = [...document.querySelectorAll('.nav a')];
+  // ===== ナビ：スムーススクロール + アクティブ表示 =====
+  (function(){
+    const navLinks = Array.from(document.querySelectorAll('.nav a[data-target]'));
     navLinks.forEach(a=>{
       a.addEventListener('click', (e)=>{
         const href = a.getAttribute('href');
@@ -1733,38 +1157,56 @@ body:not(.showDetails) .imgs{
       });
     });
 
-    const sections = ['sec-1','sec-2','sec-3','sec-4','sec-5'].map(id=>document.getElementById(id));
+    const sections = navLinks
+      .map(a => document.getElementById(a.dataset.target))
+      .filter(Boolean);
+
     const observer = new IntersectionObserver((entries)=>{
-      const visible = entries
-        .filter(en=>en.isIntersecting)
+      const visible = entries.filter(en=>en.isIntersecting)
         .sort((a,b)=>b.intersectionRatio - a.intersectionRatio)[0];
       if(!visible) return;
       const id = visible.target.id;
-      navLinks.forEach(a=>{
-        const isMatch = a.dataset.target === id;
-        a.classList.toggle('active', isMatch);
-      });
-    }, {root:null, threshold:[0.22, 0.35, 0.5, 0.65]});
+      navLinks.forEach(a=>a.classList.toggle('active', a.dataset.target === id));
+    }, {threshold:[0.22, 0.35, 0.5, 0.65]});
 
-    sections.forEach(s=>s && observer.observe(s));
-
-    // If loaded with hash, scroll nicely
-    window.addEventListener('load', ()=>{
-      const hash = location.hash;
-      if(hash && document.querySelector(hash)){
-        setTimeout(()=>document.querySelector(hash).scrollIntoView({behavior:'smooth', block:'start'}), 120);
-      }
-    });
+    sections.forEach(s=>observer.observe(s));
+  })();
   </script>
 
-<script>
+  <script>
+  // ===== 詳細トグル：写真(.imgs) + 長文説明(p.detail-only) + 費用(.detail-only) =====
   (function(){
     const btn = document.getElementById('toggleDetails');
     if(!btn) return;
 
     const KEY = 'trip_show_details';
-    const saved = localStorage.getItem(KEY);
-    if(saved === '1') document.body.classList.add('showDetails');
+    if(localStorage.getItem(KEY) === '1') document.body.classList.add('showDetails');
+
+    // 長文説明だけを detail-only にする（短い行程は残す）
+    const keepWords = [
+      '出発','到着','移動','集合','合流','受付','駐車','IC','SA','PA',
+      'チェックイン','チェックアウト','CI','CO','温泉','入浴',
+      '朝','昼','夜','ランチ','ディナー','値段','合計','目安'
+    ];
+    const timeLike = /^\s*[＊*・-]?\s*\d{1,2}:\d{2}/;
+
+    const ps = Array.from(document.querySelectorAll('p'))
+      .filter(p => !p.classList.contains('sub') && !p.classList.contains('foot'));
+
+    for(const p of ps){
+      if(p.classList.contains('detail-only')) continue;
+
+      const t = (p.textContent || '').replace(/\s+/g,' ').trim();
+      if(!t) continue;
+
+      // 短い行程/要点は残す
+      if(timeLike.test(t)) continue;
+      if(t.length <= 45) continue;
+      if(keepWords.some(w => t.includes(w))) continue;
+
+      // 長文は詳細ONで表示
+      p.classList.add('detail-only');
+    }
 
     function render(){
       const on = document.body.classList.contains('showDetails');
@@ -1776,54 +1218,9 @@ body:not(.showDetails) .imgs{
       localStorage.setItem(KEY, document.body.classList.contains('showDetails') ? '1' : '0');
       render();
     });
-<script>
-  // 既存：詳細トグルのコードがある前提
 
-  // ===== 長文説明だけ「detail-only」に自動分類 =====
-  (function(){
-    // 「これは要点なので残す」キーワード
-    const keepWords = [
-      '出発','到着','移動','集合','合流','受付','駐車','IC','SA','PA',
-      'チェックイン','チェックアウト','温泉','入浴',
-      '朝','昼','夜','ランチ','ディナー'
-    ];
-
-    // 時刻っぽい行（例：11:30〜）
-    const timeLike = /^\s*[＊*・-]?\s*\d{1,2}:\d{2}/;
-
-    // 対象：本文エリア（必要なら .content などに絞ってもOK）
-    const root = document.querySelector('main') || document.body;
-
-    const ps = Array.from(root.querySelectorAll('p'));
-    for(const p of ps){
-      const t = (p.textContent || '').replace(/\s+/g,' ').trim();
-      if(!t) continue;
-
-      // 既にdetail-only指定なら触らない
-      if(p.classList.contains('detail-only')) continue;
-
-      // 短い要点や時刻行、キーワード行は「常時表示」にする
-      if(t.length <= 0) continue;
-      if(timeLike.test(t)) continue;
-      if(keepWords.some(w => t.includes(w))) continue;
-
-      // それ以外（＝長文説明）は詳細ONで表示
-      p.classList.add('detail-only');
-    }
-  })();
-</script>
     render();
   })();
-</script>
-
-
+  </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
