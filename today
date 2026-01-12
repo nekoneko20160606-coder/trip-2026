@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>今日だけ見る｜家族旅行しおり</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --paper:#0f172a;
+      --card:#111c35;
+      --text:#e7eefc;
+      --muted:#b7c3df;
+      --line:rgba(231,238,252,.12);
+      --accent:#66a3ff;
+      --shadow: 0 12px 28px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(102,163,255,.14), transparent 60%),
+                  radial-gradient(900px 600px at 90% 30%, rgba(124,255,178,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+      line-height:1.65;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 40px}
+    .topbar{
+      display:flex; flex-wrap:wrap; gap:10px 12px;
+      align-items:center; justify-content:space-between;
+      padding:14px 14px;
+      background: rgba(15,23,42,.75);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 10px;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:2px;
+      min-width: 240px;
+    }
+    .brand .ttl{font-weight:800; letter-spacing:.02em}
+    .brand .sub{color:var(--muted); font-size:12px}
+    .controls{
+      display:flex; flex-wrap:wrap; gap:10px;
+      align-items:center; justify-content:flex-end;
+    }
+    select, button{
+      background: rgba(17,28,53,.9);
+      color: var(--text);
+      border:1px solid var(--line);
+      border-radius: 12px;
+      padding:10px 12px;
+      font-size:14px;
+      outline:none;
+    }
+    button{cursor:pointer}
+    button:hover{border-color: rgba(102,163,255,.45)}
+    .card{
+      margin-top:14px;
+      background: rgba(17,28,53,.78);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 14px;
+    }
+    .hint{color:var(--muted); font-size:13px; margin-top:6px}
+    .titleRow{
+      display:flex; flex-wrap:wrap; gap:10px 12px;
+      align-items: baseline; justify-content:space-between;
+    }
+    .titleRow h1{margin:0; font-size:20px}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      background: rgba(102,163,255,.10);
+      color: var(--text);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .hr{height:1px; background: var(--line); margin:14px 0}
+    .content{
+      /* 本編から抽出したHTMLがそのまま入る */
+      overflow-wrap: anywhere;
+    }
+    /* 抽出した見出しや表が窮屈にならないよう軽く整える */
+    .content h1,.content h2,.content h3,.content h4{margin: 14px 0 8px}
+    .content img{max-width:100%; height:auto; border-radius: 14px; border:1px solid var(--line)}
+    .content table{
+      width:100%;
+      border-collapse: collapse;
+      overflow:auto;
+      display:block;
+      border:1px solid var(--line);
+      border-radius: 14px;
+    }
+    .content th,.content td{
+      border-bottom:1px solid var(--line);
+      padding:10px 10px;
+      font-size:14px;
+      vertical-align:top;
+    }
+    .content tr:last-child td{border-bottom:none}
+    .footer{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+    .error{
+      color:#ffb4b4;
+      background: rgba(255,107,107,.10);
+      border:1px solid rgba(255,107,107,.25);
+      padding:12px 12px;
+      border-radius: 14px;
+      margin-top: 12px;
+    }
+    .miniRow{
+      display:flex; flex-wrap:wrap; gap:10px;
+      align-items:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="ttl">今日だけ見る｜家族旅行しおり</div>
+        <div class="sub">本編（/）から “◆ n日目｜…” を自動抽出して表示</div>
+      </div>
+
+      <div class="controls">
+        <div class="miniRow">
+          <label for="daySelect" class="hint" style="margin:0">DAY選択</label>
+          <select id="daySelect"></select>
+        </div>
+        <button id="btnToday" type="button">今日に戻す</button>
+        <button id="btnOpenMain" type="button">本編を開く</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="titleRow">
+        <h1 id="headline">読み込み中…</h1>
+        <div class="badge" id="badge">—</div>
+      </div>
+      <div class="hint" id="subline">本編ページから、該当日のセクションを抜き出しています。</div>
+      <div class="hr"></div>
+      <div class="content" id="content"></div>
+      <div class="footer">Tip：家族LINEには「/today.html」を送ればOK（毎日ここだけ見れば迷いません）</div>
+    </div>
+  </div>
+
+  <script>
+    // ====== 設定 ======
+    // 旅行開始日（JST想定）：2026-02-09（1日目）
+    const TRIP_START = new Date('2026-02-09T00:00:00+09:00');
+    const TRIP_DAYS = 7;
+
+    // 「◆ 3日目｜」みたいな見出しを探すためのパターン
+    const DAY_HEADING_RE = /◆\s*(\d+)\s*日目｜/;
+
+    // ====== ユーティリティ ======
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function calcTripDayFromNow(){
+      const now = new Date();
+      // JSTでの日数差を安定させるため、UTCミッドナイトで差を取る
+      const a = Date.UTC(TRIP_START.getFullYear(), TRIP_START.getMonth(), TRIP_START.getDate());
+      const b = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      const diffDays = Math.floor((b - a) / 86400000);
+      // diffDays=0 → 1日目
+      const day = diffDays + 1;
+      return clamp(day, 1, TRIP_DAYS);
+    }
+
+    function setStatus(day){
+      const badge = document.getElementById('badge');
+      const headline = document.getElementById('headline');
+      badge.textContent = `DAY ${day} / ${TRIP_DAYS}`;
+      headline.textContent = `DAY ${day}（今日だけ）`;
+    }
+
+    function fillDaySelect(selected){
+      const sel = document.getElementById('daySelect');
+      sel.innerHTML = '';
+      for(let i=1;i<=TRIP_DAYS;i++){
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = `DAY ${i}`;
+        if(i === selected) opt.selected = true;
+        sel.appendChild(opt);
+      }
+    }
+
+    // ====== 本編から該当DAYセクションを抽出 ======
+    async function loadDay(day){
+      setStatus(day);
+      fillDaySelect(day);
+
+      const content = document.getElementById('content');
+      const subline = document.getElementById('subline');
+      content.innerHTML = '';
+      subline.textContent = '本編ページから、該当日のセクションを抜き出しています。';
+
+      try{
+        // GitHub Pages の "/" は index.html を返す
+        const res = await fetch('./', { cache: 'no-store' });
+        if(!res.ok) throw new Error(`fetch failed: ${res.status}`);
+        const html = await res.text();
+
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+
+        // 見出し候補：h1-h6を総なめして「◆ n日目｜」にマッチするものを集める
+        const headings = Array.from(doc.querySelectorAll('h1,h2,h3,h4,h5,h6'));
+        const dayHeads = headings
+          .map(h => ({ el: h, m: (h.textContent || '').match(DAY_HEADING_RE) }))
+          .filter(x => x.m)
+          .map(x => ({ el: x.el, day: Number(x.m[1]) }))
+          .filter(x => x.day >= 1 && x.day <= TRIP_DAYS)
+          .sort((a,b) => a.day - b.day);
+
+        const target = dayHeads.find(x => x.day === day);
+        if(!target){
+          content.innerHTML = `
+            <div class="error">
+              本編に「◆ ${day}日目｜…」の見出しが見つかりませんでした。<br>
+              本編側の見出し表記が変わった可能性があります（例：「◆ ${day}日目｜」が別表記）。<br>
+              いったん本編を開いて確認してください。
+            </div>
+          `;
+          subline.innerHTML = `本編リンク：<a href="./" target="_blank" rel="noopener">/（トップ）</a>`;
+          return;
+        }
+
+        // 次の「◆ n日目｜」見出しまでのノードを集める
+        const startEl = target.el;
+        const startTag = startEl.tagName; // H3など
+        const startLevel = Number(startTag.substring(1)); // 3
+
+        // startEl の親要素の中で順にたどりたいので、いったん本文ルートを推定
+        // GitHub Pagesの変換では本文が <body> 直下に並ぶことが多いので、bodyをルートにする
+        const root = doc.body;
+
+        // body直下ではない場合もあるので「startElの直近の大きなコンテナ」を探す（article/main優先）
+        const mainLike = doc.querySelector('main') || doc.querySelector('article') || root;
+
+        // startEl以降をDOM順に走査して、次の「◆ n日目｜」見出しが出たら止める
+        const walker = doc.createTreeWalker(mainLike, NodeFilter.SHOW_ELEMENT, null);
+        // walkerをstartEl位置へ進める
+        let node = walker.currentNode;
+        while(node && node !== startEl){
+          node = walker.nextNode();
+        }
+        if(node !== startEl){
+          // mainLikeの配下に無かった場合：bodyで再試行
+          const walker2 = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, null);
+          node = walker2.currentNode;
+          while(node && node !== startEl){
+            node = walker2.nextNode();
+          }
+          if(node !== startEl) throw new Error('Failed to locate start heading in DOM walk.');
+          // walkerをwalker2に差し替え
+          walker.currentNode = walker2.currentNode; // noop
+        }
+
+        // 実際の抽出：startElから、次の「◆」見出しが来るまで
+        const extracted = [];
+        let cur = startEl;
+
+        // helper: 次のノード
+        function nextElement(el){
+          // DOM順に次の要素を取得
+          let w = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, null);
+          let n = w.currentNode;
+          while(n && n !== el){ n = w.nextNode(); }
+          return w.nextNode();
+        }
+
+        while(cur){
+          // 次のDAY見出しに当たったら終了（ただしstartEl自身は含める）
+          if(cur !== startEl){
+            const txt = (cur.textContent || '');
+            const m = txt.match(DAY_HEADING_RE);
+            if(m){
+              break;
+            }
+          }
+          extracted.push(cur.cloneNode(true));
+          cur = nextElement(cur);
+        }
+
+        // 表示
+        extracted.forEach(n => content.appendChild(n));
+
+        // タイトルを本編見出しから作る
+        const htxt = (startEl.textContent || '').trim();
+        document.getElementById('headline').textContent = htxt.replace(/^◆\s*/,'');
+        document.getElementById('badge').textContent = `DAY ${day} / ${TRIP_DAYS}`;
+
+        subline.innerHTML = `詳細は本編：<a href="./" target="_blank" rel="noopener">/（トップ）</a> からも見られます`;
+
+        // 一番上にスクロール
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      }catch(e){
+        document.getElementById('content').innerHTML = `
+          <div class="error">
+            読み込みに失敗しました：${String(e.message || e)}<br>
+            GitHub Pages の相対パス/構造が違う場合があります。<br>
+            まず本編（/）が同じ階層にあるか確認してください。
+          </div>
+        `;
+      }
+    }
+
+    // ====== 起動 ======
+    const initialDay = calcTripDayFromNow();
+    loadDay(initialDay);
+
+    document.getElementById('daySelect').addEventListener('change', (e) => {
+      const day = Number(e.target.value);
+      loadDay(day);
+    });
+
+    document.getElementById('btnToday').addEventListener('click', () => {
+      loadDay(calcTripDayFromNow());
+    });
+
+    document.getElementById('btnOpenMain').addEventListener('click', () => {
+      window.open('./', '_blank', 'noopener');
+    });
+  </script>
+</body>
+</html>
