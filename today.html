@@ -172,6 +172,22 @@
 .content figcaption {
   display: none !important;
 }
+/* ===== 今日だけ見る版：タイトル重複を解消 ===== */
+/* 抽出した先頭のDAY見出し（◆…）を消す */
+.content h1:first-child,
+.content h2:first-child,
+.content h3:first-child {
+  display: none !important;
+} 
+/* ===== 今日だけ見る版：観光の説明（長文）を消す ===== */
+.content p {
+  display: none !important;
+}
+
+
+
+
+
     
   </style>
 </head>
