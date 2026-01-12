@@ -711,7 +711,35 @@ tbody tr:hover td{
 }
 
 
+/* ===== 詳細トグル（本編） ===== */
+.detailsBtn{
+  background: rgba(17,28,53,.9);
+  color: #e7eefc;
+  border: 1px solid rgba(231,238,252,.12);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
 
+/* 詳細OFFのとき：写真と費用詳細を隠す */
+body:not(.showDetails) .detail-only{
+  display:none !important;
+}
+
+/* 詳細OFFのとき：ヒーロー以外の画像は隠す */
+body:not(.showDetails) img:not(.hero){
+  display:none !important;
+}
+
+/* ヒーロー画像は常時表示 */
+img.hero{
+  display:block !important;
+  max-width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(231,238,252,.12);
+}
 
 
 
@@ -728,13 +756,17 @@ tbody tr:hover td{
       <h1>📘 家族旅行しおり｜2026.2.9（月）– 2.15（日）</h1>
       <p class="sub">京都 → 高松 → 尾道 → 福山 → 倉敷 → 姫路 → 赤穂 → 都留 → 山中湖 → 忍野</p>
       <div class="chips">
+
+        <button id="toggleDetails" type="button" class="detailsBtn">詳細：OFF</button>
+        
+        
         <span class="chip"><strong>運転ルール</strong>：連続3時間まで／眠気は理由不要で即交代</span>
         <span class="chip"><strong>移動</strong>：自家用車＋電車（京都市内のみ）</span>
         <span class="chip"><strong>燃費想定</strong>：28km/L</span>
       </div>
 
       <div class="topimg">
-        <img src="https://traveldiary.kimamanalife.jp/wp-content/uploads/2022/03/IMG_0067-1024x768.jpg" alt="山中湖" decoding="async" />
+        <img　class="hero" src="https://traveldiary.kimamanalife.jp/wp-content/uploads/2022/03/IMG_0067-1024x768.jpg" alt="山中湖" decoding="async" />
         <img src="https://www.mtfuji-hotel.com/spa/_img/onsen/img01.jpg" alt="ホテルマウント富士 温泉" decoding="async" />
       </div>
     </header>
@@ -769,7 +801,7 @@ tbody tr:hover td{
           <p>* <strong>日程</strong>：2026年2月9日（月）〜2月15日（日）〈6泊7日〉</p>
           <p>* <strong>移動</strong>：自家用車＋電車（京都市内のみ）</p>
           <p>* <strong>人数</strong></p>
-          <p>&nbsp;&nbsp;* 剛（53）<br>&nbsp;&nbsp;* 瑞貴（21）<br>&nbsp;&nbsp;* 翼（18・運転初心者）<br>&nbsp;&nbsp;* 真美（51）※後半合流<br>&nbsp;&nbsp;* 恵（9）※後半合流</p>
+          <p>&nbsp;&nbsp;* 剛（53）<br>&nbsp;&nbsp;* 瑞貴（21）<br>&nbsp;&nbsp;* 翼（18）<br>&nbsp;&nbsp;* 真美（51）※後半合流<br>&nbsp;&nbsp;* 恵（9）※後半合流</p>
           <p>* <strong>ETC</strong>：ETCマイレージ＋地方部割引、2月11日14日15日は休日割引のみ</p>
           <p>* <strong>燃費想定</strong>：28km/L</p>
         </div>
@@ -1582,7 +1614,7 @@ tbody tr:hover td{
       </div>
 
       <div class="body">
-        <div class="block">
+        <div class="detail-only">
           <h3>💰 費用詳細</h3>
 
           <div class="block">
@@ -1693,6 +1725,33 @@ tbody tr:hover td{
       }
     });
   </script>
+
+<script>
+  (function(){
+    const btn = document.getElementById('toggleDetails');
+    if(!btn) return;
+
+    const KEY = 'trip_show_details';
+    const saved = localStorage.getItem(KEY);
+    if(saved === '1') document.body.classList.add('showDetails');
+
+    function render(){
+      const on = document.body.classList.contains('showDetails');
+      btn.textContent = on ? '詳細：ON' : '詳細：OFF';
+    }
+
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('showDetails');
+      localStorage.setItem(KEY, document.body.classList.contains('showDetails') ? '1' : '0');
+      render();
+    });
+
+    render();
+  })();
+</script>
+
+
 </body>
 
 </html>
+
