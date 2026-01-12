@@ -767,7 +767,21 @@ img.hero{
 @media (max-width: 768px){
   .topbar #toggleDetails{ display:none; } /* 上のボタンを隠す */
 }
+/* ===== 詳細OFFでは「説明文(p)」と「写真(.imgs)」を隠す ===== */
+body:not(.showDetails) .day p{
+  display:none !important;
+}
+body:not(.showDetails) .day .imgs{
+  display:none !important;
+}
 
+/* もし .day というクラスが無い場合の保険（強め） */
+body:not(.showDetails) p{
+  display:none !important;
+}
+body:not(.showDetails) .imgs{
+  display:none !important;
+}
 
 
 
@@ -1806,6 +1820,7 @@ img.hero{
 </body>
 
 </html>
+
 
 
 
