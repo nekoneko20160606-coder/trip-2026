@@ -1771,7 +1771,42 @@ img.hero{
       localStorage.setItem(KEY, document.body.classList.contains('showDetails') ? '1' : '0');
       render();
     });
+<script>
+  // 既存：詳細トグルのコードがある前提
 
+  // ===== 長文説明だけ「detail-only」に自動分類 =====
+  (function(){
+    // 「これは要点なので残す」キーワード
+    const keepWords = [
+      '出発','到着','移動','集合','合流','受付','駐車','IC','SA','PA',
+      'チェックイン','チェックアウト','温泉','入浴',
+      '朝','昼','夜','ランチ','ディナー'
+    ];
+
+    // 時刻っぽい行（例：11:30〜）
+    const timeLike = /^\s*[＊*・-]?\s*\d{1,2}:\d{2}/;
+
+    // 対象：本文エリア（必要なら .content などに絞ってもOK）
+    const root = document.querySelector('main') || document.body;
+
+    const ps = Array.from(root.querySelectorAll('p'));
+    for(const p of ps){
+      const t = (p.textContent || '').replace(/\s+/g,' ').trim();
+      if(!t) continue;
+
+      // 既にdetail-only指定なら触らない
+      if(p.classList.contains('detail-only')) continue;
+
+      // 短い要点や時刻行、キーワード行は「常時表示」にする
+      if(t.length <= 25) continue;
+      if(timeLike.test(t)) continue;
+      if(keepWords.some(w => t.includes(w))) continue;
+
+      // それ以外（＝長文説明）は詳細ONで表示
+      p.classList.add('detail-only');
+    }
+  })();
+</script>
     render();
   })();
 </script>
@@ -1780,6 +1815,7 @@ img.hero{
 </body>
 
 </html>
+
 
 
 
